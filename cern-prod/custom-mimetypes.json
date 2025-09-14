@@ -1,0 +1,6 @@
+{
+  ".zmd": "application/compressed-markdown",
+  ".vsdx": "application/vnd.openxmlformats-officedocument.visio",
+  ".wopitest": "application/wopi-validator",
+  ".wopitestx": "application/wopi-validator-x"
+}

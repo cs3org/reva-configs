@@ -1,0 +1,27 @@
+[log]
+output = "/var/log/revad/revad-auth-basic.log"
+mode = "json"
+
+[shared]
+gatewaysvc = "localhost:9142"
+jwt_secret = "your_secret"
+
+[grpc]
+address = "localhost:9156"
+
+[grpc.services.authprovider]
+auth_manager = "ldap"
+
+[grpc.services.authprovider.auth_managers.ldap]
+hostname = "cerndc.cern.ch"
+port = 636
+base_dn = "OU=Users,OU=Organic Units,DC=cern,DC=ch"
+loginfilter = "(&(objectClass=user)(cn={{login}}))"
+bind_username = "CN=boxsvc,OU=Users,OU=Organic Units,DC=cern,DC=ch"
+bind_password = "your_pwd"
+idp = "https://auth.cern.ch/auth/realms/cern"
+schema = { dn = "dn", uid = "cn", mail = "mail", displayName = "displayname", cn = "cn" }
+gatewaysvc = "localhost:9142"
+
+[tracing]
+

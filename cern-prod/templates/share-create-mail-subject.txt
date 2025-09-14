@@ -1,0 +1,9 @@
+{{ $who := "you" }}
+{{- if .isGranteeGroup}}
+{{ $who = "an e-group you're a member of" }}
+{{- end -}}
+{{- if .isFolder -}}
+CERNBox - {{.granterDisplayName}} ({{.granterUserName}}) has shared the folder '{{.base}}' with {{$who}}
+{{- else -}}
+CERNBox - {{.granterDisplayName}} ({{.granterUserName}}) has shared the file '{{.base}}' with {{$who}}
+{{- end -}}

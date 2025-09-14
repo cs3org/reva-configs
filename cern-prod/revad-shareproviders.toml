@@ -1,0 +1,45 @@
+[log]
+output = "/var/log/revad/revad-shareproviders.log"
+level = "debug"
+mode = "json"
+
+[shared]
+gatewaysvc = "localhost:9142"
+jwt_secret = "your_secret"
+skip_user_groups_in_token = true
+
+[grpc]
+address = "0.0.0.0:9144"
+
+[grpc.services.usershareprovider]
+driver = "sql"
+allowed_paths_for_shares = ["^/eos/user/[a-z]/[0-9a-z\\-]+/.+", "^/eos/project/[a-z]/[0-9a-z\\-]+/.+"]
+
+[grpc.services.usershareprovider.drivers.sql]
+db_username = "your_db_user"
+db_password = "your_pwd"
+db_host = "dbhost"
+db_port = 5504
+db_name = "dbname"
+password_hash_cost = 11
+enable_expired_shares_cleanup = false
+janitor_run_interval = 60
+
+
+[grpc.services.publicshareprovider]
+driver = "sql"
+allowed_paths_for_shares = ["^/eos/user/[a-z]/[0-9a-z\\-]+/.+", "^/eos/project/[a-z]/[0-9a-z\\-]+/.+"]
+pub_rw_link_max_expiration = 94694400 # 3 years + 1 day
+pub_rw_link_default_expiration = 2678400 # 1 month + 1 day
+
+[grpc.services.publicshareprovider.drivers.sql]
+db_username = "your_db_user"
+db_password = "your_pwd"
+db_host = "dbhost"
+db_port = 5504
+db_name = "dbname"
+password_hash_cost = 11
+
+
+[tracing]
+

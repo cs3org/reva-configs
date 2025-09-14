@@ -1,0 +1,334 @@
+[log]
+output = "/var/log/revad/revad-gateway.log"
+level = "debug"
+mode = "json"
+
+[shared]
+gatewaysvc = "localhost:9142"
+jwt_secret = "your_secret"
+skip_user_groups_in_token = true
+
+[grpc]
+address = "0.0.0.0:9142"
+
+[grpc.services.gateway]
+commit_share_to_storage_grant = true
+commit_share_to_storage_ref = true
+disable_home_creation_on_login = false
+transfer_shared_secret = "your_secret"
+transfer_expires = 86400
+home_mapping = ""
+home_layout = "/eos/user/{{substr 0 1 .Username}}/{{.Username}}/"
+etag_cache_ttl = 0
+create_home_cache_ttl = 86400
+resource_info_cache_ttl = 60
+resource_info_cache_type = "memory"
+
+authregistrysvc = "localhost:9142"
+storageregistrysvc = "localhost:9142"
+appregistrysvc = "localhost:9142"
+preferencessvc = "localhost:9142"
+userprovidersvc = "localhost:9145"
+groupprovidersvc = "localhost:9145"
+usershareprovidersvc = "localhost:9144"
+publicshareprovidersvc = "localhost:9144"
+ocmshareprovidersvc = "localhost:9144"
+
+datagateway = "https://cernbox.cern.ch/data"
+
+allowed_user_agents = { "/home" = ["grpc", "desktop"] }
+
+[grpc.services.gateway.token_managers.jwt]
+expires_next_weekend = true
+expires = 86400
+
+[grpc.services.authregistry]
+driver = "static"
+
+[grpc.services.authregistry.drivers.static.rules]
+bearer = "localhost:9158"
+machine = "localhost:9166"
+publicshares = "localhost:9278"
+
+
+[grpc.services.appregistry]
+driver = "static"
+
+[grpc.services.appregistry.drivers.static]
+mime_types = [
+	{ mime_type = "text/markdown", extension = "md", name = "Plain Markdown file", description = "CodiMD markdown file", icon = "resource-type-file", default_app = "CodiMD", allow_creation = true },
+	{ mime_type = "application/compressed-markdown", extension = "zmd", name = "Markdown file with images", description = "CodiMD zipped markdown file", icon = "resource-type-file", default_app = "CodiMD", allow_creation = true },
+	{ mime_type = "application/vnd.openxmlformats-officedocument.wordprocessingml.document", extension = "docx", name = "Word document", description = "Microsoft Word document", icon = "resource-type-document", default_app = "MS 365 on Cloud", allow_creation = true },
+	{ mime_type = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", extension = "xlsx", name = "Excel spreadsheet", description = "Microsoft Excel spreadsheet", icon = "resource-type-spreadsheet", default_app = "MS 365 on Cloud", allow_creation = true },
+	{ mime_type = "application/vnd.openxmlformats-officedocument.presentationml.presentation", extension = "pptx", name = "PowerPoint slides", description = "Microsoft PowerPoint presentation", icon = "resource-type-presentation", default_app = "MS 365 on Cloud", allow_creation = true },
+	{ mime_type = "application/vnd.ms-word.document.macroenabled.12", extension = "docm", name = "Word document", description = "Microsoft Word document with macros", icon = "resource-type-document", default_app = "MS 365 on Cloud", allow_creation = false },
+	{ mime_type = "application/vnd.ms-excel.sheet.binary.macroenabled.12", extension = "xlsm", name = "Excel spreadsheet", description = "Microsoft Excel spreadsheet with macros", icon = "resource-type-spreadsheet", default_app = "MS 365 on Cloud", allow_creation = false },
+	{ mime_type = "application/vnd.ms-powerpoint.presentation.macroenabled.12", extension = "pptm", name = "PowerPoint slides", description = "Microsoft PowerPoint presentation with macros", icon = "resource-type-presentation", default_app = "MS 365 on Cloud", allow_creation = false },
+    { mime_type = "application/msword", extension = "doc", name = "Word legacy doc", description = "Microsoft Word legacy document", icon = "resource-type-document", default_app = "MS 365 on Cloud", allow_creation = false },
+    { mime_type = "application/vnd.ms-excel", extension = "xls", name = "Excel legacy sheet", description = "Microsoft Excel legacy spreadsheet", icon = "resource-type-spreadsheet", default_app = "MS 365 on Cloud", allow_creation = false },
+    { mime_type = "application/vnd.ms-powerpoint", extension = "ppt", name = "PowerPoint legacy slides", description = "Microsoft PowerPoint legacy presentation", icon = "resource-type-presentation", default_app = "MS 365 on Cloud", allow_creation = false },
+	{ mime_type = "application/vnd.openxmlformats-officedocument.visio", extension = "vsdx", name = "Visio diagram", description = "Microsoft Visio diagram", icon="resource-type-visio", default_app = "MS 365 on Cloud", allow_creation = false },
+	{ mime_type = "application/vnd.oasis.opendocument.text", extension = "odt", name = "Open document", description = "OpenDocument text", icon = "resource-type-document", default_app = "MS 365 on Cloud", allow_creation = false },
+	{ mime_type = "application/vnd.oasis.opendocument.spreadsheet", extension = "ods", name = "Open spreadsheet", description = "OpenDocument spreadsheet", icon = "resource-type-spreadsheet", default_app = "MS 365 on Cloud", allow_creation = false },
+	{ mime_type = "application/vnd.oasis.opendocument.presentation", extension = "odp", name = "Open slides", description = "OpenDocument presentation", icon = "resource-type-presentation", default_app = "MS 365 on Cloud", allow_creation = false },
+	{ mime_type = "application/wopi-validator", extension = "wopitest", name = "WOPI validator", description = "Microsoft WOPI validation tests", default_app = "MS 365 on Cloud", allow_creation = false },
+	{ mime_type = "application/wopi-validator-x", extension = "wopitestx", name = "WOPI validator x", description = "Microsoft WOPI validation tests", default_app = "MS 365 on Cloud", allow_creation = false },
+]
+
+[grpc.services.storageregistry]
+
+driver = "dynamic"
+
+
+[grpc.services.storageregistry.drivers.dynamic]
+db_username = "cernbox_server"
+db_password = "your_pwd"
+db_host = "your_host"
+db_port = 5504
+db_name = "dbname"
+home_path = "/home"
+
+[grpc.services.storageregistry.drivers.dynamic.rules]
+"eosproject-i00" = "localhost:14500"
+"eoshome-i00" = "localhost:16000"
+"eosexperiment" = "localhost:22000"
+
+[grpc.services.storageregistry.drivers.dynamic.rewrites]
+"/home" = "eoshome-{{substr 0 1 .Id.OpaqueId}}"
+
+[grpc.services.storageregistry.drivers.dynamic.aliases]
+"eoshome-[dlntz]" = "eoshome-i00"
+"eoshome-[agjkw]" = "eoshome-i01"
+"eoshome-[horsy]" = "eoshome-i02"
+"eoshome-[bemvx]" = "eoshome-i03"
+"eoshome-[cfipqu]" = "eoshome-i04"
+"project-[aegjkqvy]" = "eosproject-i00"
+"project-[bfhlnopsw]" = "eosproject-i01"
+"project-[cdimrtuxz]" = "eosproject-i02"
+
+
+[grpc.services.preferences]
+driver = "sql"
+
+[grpc.services.preferences.drivers.sql]
+db_username = "cernbox_server"
+db_password = "your_pwd"
+db_host = "your_host"
+db_port = 5504
+db_name = "dbname"
+
+
+[http]
+address = "0.0.0.0:9143"
+
+[http.middlewares.auth]
+credential_chain = ["publicshares", "basic", "bearer"]
+token_strategy_chain = ["bearer", "header"]
+
+[http.middlewares.auth.credentials_by_user_agent]
+"mirall" = "basic"
+
+[http.middlewares.auth.credential_strategies.publicshares]
+use_cookies = true
+
+[http.middlewares.cors]
+allowed_origins = ["*"]
+allowed_methods = ["OPTIONS", "LOCK", "GET", "HEAD", "POST", "DELETE", "PROPPATCH", "COPY", "MOVE", "UNLOCK", "PROPFIND", "MKCOL", "REPORT", "SEARCH", "PUT"]
+allowed_headers = ["Accept", "Accept-Language", "Authorization", "Content-Language", "Content-Type", "Depth", "OCS-APIREQUEST", "Referer", "sec-ch-ua", "sec-ch-ua-mobile", "sec-ch-ua-platform", "User-Agent", "X-Requested-With"]
+debug = true
+exposed_headers = []
+
+
+# frontend
+
+[http.services.appprovider]
+transfer_shared_secret = "your_secret"
+timeout = 86400
+insecure = true
+
+
+[http.services.thumbnails]
+cache = "lru"
+output_type = "jpg"
+quality = 80
+insecure = true
+fixed_resolutions = ["36x36"]
+
+[http.services.thumbnails.cache_drivers.lru]
+size = 1000000
+expiration = 172800 # 2 days
+
+[http.services.archiver]
+prefix = "archiver"
+timeout = 86400
+insecure = true
+max_num_files = 10000
+max_size = 10737418240 # 10GB
+allowed_folders = ["^/eos/user/[a-z]/[0-9a-z\\-]+/", "^/eos/project/[a-z]/[0-9a-z\\-]+/"]
+
+[http.services.datagateway]
+transfer_shared_secret = "your_secret"
+timeout = 86400
+insecure = true
+prefix = "data"
+
+[http.services.preferences]
+prefix = "preferences"
+
+[http.services.ocdav]
+files_namespace = "/eos/{{substr 0 1 .Username}}"
+timeout = 86400
+insecure = true
+favorite_storage_driver = "sql"
+my_office_files_projects = ["cernbox", "dg-office", "directorate"]
+enable_http_tpc = false
+desktop_client_namespace = "/cernbox/desktop"
+disabled_open_in_apps = [ "/eos/experiment" ]
+
+[http.services.ocdav.publiclink_download]
+max_num_files = 10000
+max_size = 10737418240
+public_folder = "/public"
+
+[http.services.ocdav.favorite_storage_drivers.sql]
+db_username = "db_username"
+db_password = "your_pwd"
+db_host = "dbhost"
+db_port = 5504
+db_name = "dbname"
+
+
+[http.services.ocs]
+share_prefix = "/"
+home_namespace = "/"
+additional_info_attribute = "{{.Username}} ({{.Mail}})"
+cache_warmup_driver = "first-request"
+resource_info_cache_ttl = 60
+resource_info_cache_type = "memory"
+ocm_mount_point = "/sciencemesh"
+list_ocm_shares = false
+signing_key = "your_key"
+
+[http.services.ocs.group_based_capabilities]
+
+[http.services.ocs.config]
+version = "1.8"
+website = "reva"
+host = "https://cernbox.cern.ch"
+contact = "cernbox-service-ops@cern.ch"
+ssl = "false"
+
+[http.services.ocs.capabilities.capabilities.core]
+poll_interval = 60
+webdav_root = "remote.php/webdav"
+status = { installed = true, maintenance = false, nwwsaDbUpgrade = false, version = "10.0.11.5", versionstring = "10.0.11", edition = "community", productname = "reva", hostname = "" }
+support_url_signing = false
+
+[http.services.ocs.capabilities.capabilities.checksums]
+supported_types = ["sha1", "md5", "adler32"]
+
+[http.services.ocs.capabilities.capabilities.files]
+private_links = false
+bigfilechunking = false
+blacklisted_files = []
+undelete = true
+versioning = true
+archivers = [
+	{ enabled = true, version = "2.0.0", formats = [
+		"tar",
+		"zip",
+	], archiver_url = "/archiver", max_num_files = "10000", max_size = "1073741824" },
+]
+app_providers = [
+	{ enabled = true, version = "1.0.0", apps_url = "/app/list", open_url = "/app/open", new_url = "/app/new" },
+]
+favorites = true
+
+[http.services.ocs.capabilities.capabilities.dav]
+
+[http.services.ocs.capabilities.capabilities.files.thumbnail]
+enabled = true
+version = "1.0.0"
+supported_mime_types = []
+
+[http.services.ocs.capabilities.capabilities.files_sharing]
+api_enabled = true
+resharing = true
+deny_access = true
+resharing_default = false
+group_sharing = true
+auto_accept_share = true
+share_with_group_members_only = true
+share_with_membership_groups_only = true
+default_permissions = 22
+search_min_length = 3
+
+[http.services.ocs.capabilities.capabilities.files_sharing.public]
+enabled = true
+send_mail = true
+social_share = true
+upload = true
+multiple = true
+supports_upload_only = true
+password = { enforced = false, enforced_for = { read_only = false, read_write = false, upload_only = false } }
+can_edit = true
+can_contribute = false
+
+[http.services.ocs.capabilities.capabilities.files_sharing.public.expire_date]
+enabled = true
+default_rw_folders = { months = 1 }
+max_rw_folders = { years = 3 }
+
+[http.services.ocs.capabilities.capabilities.files_sharing.user]
+send_mail = true
+profile_picture = false
+settings = [{ enabled = true, version = "1.0.0" }]
+
+[http.services.ocs.capabilities.capabilities.files_sharing.user_enumeration]
+enabled = true
+group_members_only = true
+
+[http.services.ocs.capabilities.capabilities.files_sharing.federation]
+outgoing = true
+incoming = true
+
+[http.services.ocs.capabilities.capabilities.spaces]
+enabled = false
+projects = true
+
+[http.services.ocs.capabilities.version]
+edition = "reva"
+major = 10
+minor = 0
+micro = 11
+string = "10.0.11"
+
+[http.services.ocdav.notifications]
+nats_address = "your-nats-host:4222"
+nats_token = "your_token"
+nats_stream = "reva-notifications-cbox"
+
+[http.services.ocs.notifications.templates.sharedfolder_upload_mail]
+name = "sharedfolder-upload-mail"
+handler = "email"
+subject_template_path = "/etc/revad/templates/sharedfolder-upload-mail-subject.txt"
+body_template_path = "/etc/revad/templates/sharedfolder-upload-mail-body.html"
+
+[http.services.ocs.notifications]
+nats_address = "your-nats-host:4222"
+nats_token = "your_token"
+nats_stream = "reva-notifications-cbox"
+
+[http.services.ocs.notifications.templates.share_create_mail]
+name = "share-create-mail"
+handler = "email"
+subject_template_path = "/etc/revad/templates/share-create-mail-subject.txt"
+body_template_path = "/etc/revad/templates/share-create-mail-body.html"
+
+[http.services.metrics]
+metrics_data_driver_type = "json"
+metrics_data_location = "/etc/revad/accounting-metrics.json"
+
+
+[tracing]
+

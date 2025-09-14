@@ -1,0 +1,52 @@
+[log]
+output = "/var/log/revad/revad-projects-i00.log"
+mode = "json"
+
+[shared]
+gatewaysvc = "localhost:9142"
+jwt_secret = "your_secret"
+skip_user_groups_in_token = true
+
+[grpc]
+address = "0.0.0.0:14500"
+
+[grpc.services.storageprovider]
+custom_mime_types_json = "/etc/revad/custom-mimetypes.json"
+driver = "eoswrapper"
+mount_path = "/eos/project"
+mount_id = "eosproject-i00"
+data_server_url = "http://localhost:13500/data"
+minimum_allowed_path_level_for_share = 5
+
+[grpc.services.storageprovider.drivers.eoswrapper]
+namespace = "/eos/project/"
+quota_node = "/eos/project/"
+master_url = "root://eosproject-i00.cern.ch"
+share_folder = "/Shares"
+mount_id_template = "project-{{ trimAll \"/\" .Path | substr 0 1 }}"
+xrdcopy_binary = "/opt/eos/xrootd/bin/xrdcopy"
+cache_directory = "/var/tmp/reva"
+use_grpc = true
+grpc_auth_key = "your key"
+https_auth_key = "your key"
+master_grpc_uri = "eosproject-i00.cern.ch:50051"
+
+[http]
+address = "0.0.0.0:13500"
+
+[http.services.dataprovider]
+driver = "eoswrapper"
+
+[http.services.dataprovider.drivers.eoswrapper]
+namespace = "/eos/project/"
+quota_node = "/eos/project/"
+mount_id_template = "project-{{ trimAll \"/\" .Path | substr 0 1 }}"
+xrdcopy_binary = "/opt/eos/xrootd/bin/xrdcopy"
+cache_directory = "/var/tmp/reva"
+grpc_auth_key = "your key"
+https_auth_key = "your key"
+use_grpc = true
+master_url = "https://eosproject-i00.cern.ch:8444"
+master_grpc_uri = "eosproject-i00.cern.ch:50051"
+
+[tracing]

@@ -1,0 +1,58 @@
+[log]
+output = "/var/log/revad/revad-homes-i00.log"
+mode = "json"
+
+[shared]
+gatewaysvc = "localhost:9142"
+jwt_secret = "your_secret"
+skip_user_groups_in_token = true
+
+[grpc]
+address = "0.0.0.0:16000"
+
+[grpc.services.storageprovider]
+custom_mime_types_json = "/etc/revad/custom-mimetypes.json"
+driver = "eoswrapper"
+mount_path = "/eos/user"
+mount_id = "eoshome-i00"
+data_server_url = "http://localhost:15000/data"
+minimum_allowed_path_level_for_share = 5
+
+[grpc.services.storageprovider.drivers.eoswrapper]
+namespace = "/eos/user/"
+quota_node = "/eos/user/"
+master_url = "root://eoshome-i00.cern.ch"
+user_layout = "{{substr 0 1 .Username}}/{{.Username}}"
+share_folder = "/Shares"
+xrdcopy_binary = "/opt/eos/xrootd/bin/xrdcopy"
+cache_directory = "/var/tmp/reva"
+default_quota_files = 5000000
+default_secondary_quota_bytes = 40000000000
+create_home_hook = "/opt/cbox-scripts/lifecycle/create/lifecycle_create_user.sh"
+enable_home_creation = true
+use_grpc = true
+grpc_auth_key = "your_key"
+https_auth_key = "your_key"
+master_grpc_uri = "eoshome-i00.cern.ch:50051"
+
+[http]
+address = "0.0.0.0:15000"
+
+[http.services.dataprovider]
+driver = "eoswrapper"
+
+[http.services.dataprovider.drivers.eoswrapper]
+namespace = "/eos/user/"
+quota_node = "/eos/user/"
+user_layout = "{{substr 0 1 .Username}}/{{.Username}}"
+xrdcopy_binary = "/opt/eos/xrootd/bin/xrdcopy"
+cache_directory = "/var/tmp/reva"
+enable_home_creation = true
+use_grpc = true
+master_url = "https://eoshome-i00.cern.ch:8444"
+grpc_auth_key = "your_key"
+https_auth_key = "your_key"
+master_grpc_uri = "eoshome-i00.cern.ch:50051"
+
+[tracing]
+

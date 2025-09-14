@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html style="height: 100%">
+
+<head>
+  <meta hp-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+
+<style>
+  body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0;
+    background-color: #03142b;
+    font-family: Arial, sans-serif;
+  }
+
+  .article {
+    max-width: 660px;
+    padding: 2rem;
+    background-color: white;
+    border-radius: 10px;
+    margin-bottom: 5rem;
+  }
+
+  p {
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.5;
+  }
+
+  .center {
+    text-align: center;
+  }
+
+  .file-box {
+    background: #ececec;
+    padding: .5rem;
+    border: 1px dashed #cccccc;
+    border-radius: 5px;
+    line-height: 1.5;
+  }
+
+  a {
+    color: #0f7bb6;
+    font-weight: bold;
+  }
+
+  .signature {
+    font-size: 14px;
+    margin-top: 3rem;
+    text-align: right;
+  }
+
+</style>
+
+<body>
+  {{ $rootUrl := "https://cernbox.cern.ch/files/spaces" }}
+  <img src="https://cernbox.web.cern.ch/cernbox/logo.svg" alt="" width="230" />
+  <div class="article">
+    <p class="center">
+      User
+      <strong>
+        {{.granterDisplayName}} (<code>{{.granterUserName}}</code>)
+      </strong>
+      <br>
+      {{- if ._items -}}
+      has shared multiple resources
+      {{- else -}}
+      has shared a
+      {{- if .isFolder }} folder {{ else }} file {{ end -}}
+      {{- end -}}
+      {{- if .isGranteeGroup -}}
+      with the e-group
+      <strong><code>{{.granteeUserName}}</code></strong>
+      <br>
+      which you are a member of:
+      {{- else -}}
+      with you:
+      {{- end -}}
+    </P>
+    <div class="file-box">
+      <strong>
+        <code>
+          <a href="{{$rootUrl}}{{.path}}" target="_blank">{{- .base -}}</a>
+        </code>
+      </strong>
+      <br>
+    </div>
+
+    <p>
+      {{- if not .isGranteeGroup }}
+      If you login to <a href="{{$rootUrl}}" target="_blank">CERNBox</a> with your
+      account (<strong><code>{{.granteeUserName}}</code></strong>), y
+      {{- else -}}
+      Y
+      {{- end -}}
+      ou can find this share in your 'Shared with you' section.
+    </p>
+
+    {{- if .isFolder -}}
+    <p>
+      To synchronize it in your desktop, please follow the documentation to add
+      the new folder with this path:
+    </p>
+
+    <div class="file-box">
+      <strong><code>{{.path}}</code></strong>
+    </div>
+
+    <p>
+      For more information on how to synchronize a folder using the desktop client,
+      please follow the
+      <a href="https://cernbox.docs.cern.ch/desktop/sync-client/add_a_folder_sync_connection/">documentation</a>.
+    </p>
+    {{- end -}}
+
+    <p class="signature">
+      The CERNBox team
+    </p>
+  </div>
+  <tbody>
+
+</body>

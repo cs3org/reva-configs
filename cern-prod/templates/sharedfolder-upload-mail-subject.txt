@@ -1,0 +1,5 @@
+{{- if ._items -}}
+CERNBox - {{._count}} files have been uploaded to your shared folder '{{(index ._items 0).folder}}'
+{{- else -}}
+CERNBox - A file has been uploaded to your shared folder '{{.folder}}'
+{{- end -}}

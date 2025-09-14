@@ -1,0 +1,43 @@
+[log]
+output = "/var/log/revad/revad-groupuserproviders.log"
+level = "debug"
+mode = "json"
+
+[shared]
+gatewaysvc = "localhost:9142"
+jwt_secret = "your_secret"
+skip_user_groups_in_token = true
+
+[grpc]
+address = "0.0.0.0:9145"
+
+[grpc.services.userprovider]
+driver = "rest"
+
+[grpc.services.userprovider.drivers.rest]
+client_id = "cernbox-service-grappa"
+client_secret = "your_secret"
+redis_address = "localhost:6379"
+user_groups_cache_expiration = 360
+id_provider = "https://auth.cern.ch/auth/realms/cern"
+api_base_url = "https://authorization-service-api.web.cern.ch"
+oidc_token_endpoint = "https://auth.cern.ch/auth/realms/cern/api-access/token"
+target_api = "authorization-service-api"
+
+
+[grpc.services.groupprovider]
+driver = "rest"
+
+[grpc.services.groupprovider.drivers.rest]
+client_id = "cernbox-service-grappa"
+client_secret = "your_secret"
+redis_address = "localhost:6379"
+group_members_cache_expiration = 360
+id_provider = "https://auth.cern.ch/auth/realms/cern"
+api_base_url = "https://authorization-service-api.web.cern.ch"
+oidc_token_endpoint = "https://auth.cern.ch/auth/realms/cern/api-access/token"
+target_api = "authorization-service-api"
+
+
+[tracing]
+

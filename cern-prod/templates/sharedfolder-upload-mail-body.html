@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html style="height: 100%">
+
+<head>
+  <meta hp-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+
+<style>
+  body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0;
+    background-color: #03142b;
+    font-family: Arial, sans-serif;
+  }
+
+  .article {
+    max-width: 660px;
+    padding: 2rem;
+    background-color: white;
+    border-radius: 10px;
+    margin-bottom: 5rem;
+  }
+
+  p {
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.5;
+  }
+
+  .center {
+    text-align: center;
+  }
+
+  .file-box {
+    background: #ececec;
+    padding: .5rem;
+    border: 1px dashed #cccccc;
+    border-radius: 5px;
+    line-height: 1.5;
+  }
+
+  a {
+    color: #0f7bb6;
+    font-weight: bold;
+  }
+
+  .signature {
+    font-size: 14px;
+    margin-top: 3rem;
+    text-align: right;
+  }
+
+</style>
+
+<body>
+  {{ $rootUrl := "https://cernbox.cern.ch/files/spaces" }}
+  {{ $path := .path }}
+  {{- if ._items -}}
+  {{ $path = (index ._items 0).path}}
+  {{- end -}}
+  <img src="https://cernbox.web.cern.ch/cernbox/logo.svg" alt="" width="230" />
+  <div class="article">
+    <p class="center">
+      An <strong><code>anonymous user</code></strong><br>
+      &nbsp;has made an upload to your public folder located at:<br>
+    <div class="file-box">
+      <strong>
+        <code>
+          <a href="{{$rootUrl}}{{$path}}" target="_blank">{{$path}}</a>
+        </code>
+      </strong>
+    </div>
+    </p>
+
+    <p>
+      <strong>New contents:</strong>
+    </p>
+    <div class="file-box">
+      {{- if .fileName -}}
+      <strong>
+        <code>
+          <a href="{{$rootUrl}}{{$path}}{{.fileName}}" target="_blank">{{- .fileName -}}</a>
+        </code>
+      </strong>
+      <br>
+      {{- end -}}
+      {{- if ._items -}}
+      {{- range ._items -}}
+      <strong>
+        <code>
+          <a href="{{$rootUrl}}{{$path}}{{.fileName}}" target="_blank">{{- .fileName -}}</a>
+        </code>
+      </strong>
+      <br>
+      {{- end -}}
+      {{- if ._moreCount -}}
+      <br />
+      ...and {{._moreCount}} more items.
+      {{- end -}}
+      {{- end -}}
+    </div>
+
+    <p>
+      You can visit the folder to check its contents by following
+      <a href="{{$rootUrl}}{{$path}}" target="_blank">this link</a>.
+      You might be required to log in to CERNBox by using the CERN SSO.
+    </p>
+
+    <p>
+      If this folder is synchronized to your desktop, you should be able to find
+      the file in the CERNBox folder in your own computer.
+    </p>
+
+    <p>
+      For more information on how to synchronize a folder using the desktop client,
+      please follow the
+      <a href="https://cernbox.docs.cern.ch/desktop/sync-client/add_a_folder_sync_connection/">documentation</a>.
+    </p>
+
+    <p class="signature">
+      The CERNBox team
+    </p>
+  </div>
+  <tbody>
+
+
+</body>
+
+</html>

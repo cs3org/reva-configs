@@ -1,0 +1,45 @@
+[log]
+output = "/var/log/revad/revad-cephfs.log"
+mode = "json"
+
+[shared]
+gatewaysvc = "localhost:9142"
+jwt_secret = "your_secret"
+skip_user_groups_in_token = true
+
+[grpc]
+address = "0.0.0.0:21001"
+
+[grpc.interceptors.notrashbin]
+[grpc.interceptors.noversions]
+
+[grpc.services.storageprovider]
+driver = "cephfs"
+mount_path = "/winspaces"
+mount_id = "cephfs"
+data_server_url = "http://your_server:22001/data"
+
+[grpc.services.storageprovider.drivers.cephfs]
+root = "/volumes/_nogroup/your_ceph_root"
+config = "/etc/ceph/cluster.conf"
+keyring = "/etc/ceph/cluster.client.keyring"
+client_id = "cluster"
+disable_home = true
+dir_perms = 0o777
+file_perms = 0o666
+
+[http]
+address = "0.0.0.0:22001"
+
+[http.services.dataprovider]
+driver = "cephfs"
+
+[http.services.dataprovider.drivers.cephfs]
+root = "/volumes/_nogroup/your_ceph_root"
+config = "/etc/ceph/cluster.conf"
+keyring = "/etc/ceph/cluster.client.keyring"
+client_id = "cluster"
+disable_home = true
+dir_perms = 0o777
+file_perms = 0o666
+

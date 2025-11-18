@@ -25,7 +25,7 @@ appauth = "localhost:15000"
 [grpc.services.usershareprovider]
 [grpc.services.groupprovider]
 [grpc.services.publicshareprovider]
-[grpc.services.ocmcore]
+[grpc.services.ocmincoming]
 [grpc.services.ocmshareprovider]
 [grpc.services.ocminvitemanager]
 [grpc.services.ocmproviderauthorizer]

@@ -44,7 +44,7 @@ storageregistrysvc = "{{ grpc.services.storageregistry.address }}"
 preferencessvc = "{{ grpc.services.userprovider.address }}"
 userprovidersvc = "{{ grpc.services.userprovider.address }}"
 usershareprovidersvc = "{{ grpc.services.usershareprovider.address }}"
-ocmcoresvc = "{{ grpc.services.ocmcore.address }}"
+ocmincomingsvc = "{{ grpc.services.ocmincoming.address }}"
 ocmshareprovidersvc = "{{ grpc.services.ocmshareprovider.address }}"
 ocminvitemanagersvc = "{{ grpc.services.ocminvitemanager.address }}"
 ocmproviderauthorizersvc = "{{ grpc.services.ocmproviderauthorizer.address }}"
@@ -142,10 +142,10 @@ machine_secret = "{{ vars.machine_api_key }}"
 [grpc.services.usershareprovider]
 driver = "memory"
 
-[grpc.services.ocmcore]
+[grpc.services.ocmincoming]
 driver = "nextcloud"
 
-[grpc.services.ocmcore.drivers.nextcloud]
+[grpc.services.ocmincoming.drivers.nextcloud]
 host = "{{ vars.external_reva_endpoint }}"
 endpoint = "{{ vars.efss_sciencemesh_endpoint }}"
 shared_secret = "{{ vars.efss_shared_secret }}"

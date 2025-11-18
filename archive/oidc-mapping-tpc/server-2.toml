@@ -40,7 +40,7 @@ enable_home_creation = false
 [grpc.services.usershareprovider]
 [grpc.services.groupprovider]
 [grpc.services.publicshareprovider]
-[grpc.services.ocmcore]
+[grpc.services.ocmincoming]
 
 [grpc.services.ocmshareprovider]
 gateway_addr = "0.0.0.0:17000"

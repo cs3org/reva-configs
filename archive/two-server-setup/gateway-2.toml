@@ -15,7 +15,7 @@ userprovidersvc = "localhost:29000"
 groupprovidersvc = "localhost:29000"
 usershareprovidersvc = "localhost:29000"
 publicshareprovidersvc = "localhost:29000"
-ocmcoresvc = "localhost:29000"
+ocmincomingsvc = "localhost:29000"
 ocmshareprovidersvc = "localhost:29000"
 ocminvitemanagersvc = "localhost:29000"
 ocmproviderauthorizersvc = "localhost:29000"
@@ -62,8 +62,8 @@ file = "/var/tmp/reva/shares-server-2.json"
 [grpc.services.groupprovider]
 [grpc.services.publicshareprovider]
 
-[grpc.services.ocmcore]
-[grpc.services.ocmcore.drivers.json]
+[grpc.services.ocmincoming]
+[grpc.services.ocmincoming.drivers.json]
 file = "/var/tmp/reva/ocm-shares-server-2.json"
 
 [grpc.services.ocmshareprovider]

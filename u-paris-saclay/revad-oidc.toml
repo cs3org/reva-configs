@@ -1,0 +1,21 @@
+[log]
+mode = "json"
+level = "debug"
+
+[shared]
+gatewaysvc = "localhost:9142"
+jwt_secret = "ijclab_scecret"
+
+[grpc]
+address = "localhost:9158"
+
+[grpc.services.authprovider]
+auth_manager = "oidc"
+
+[grpc.services.authprovider.auth_managers.oidc]
+gatewaysvc = "localhost:9142"
+issuer = "https://sso.universite-paris-saclay.fr/cas/oidc"
+gid_claim = "gid_number"
+uid_claim = "uid_number"
+
+

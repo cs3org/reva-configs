@@ -17,3 +17,4 @@ References | Description
 ---------- | -----------
 [storage-references](./storage-references) | Configuration files for the different Reva providers
 [cern-prod](./cern-prod) | A set of configuration files as used in production at CERN
+[u-paris-saclay](./u-paris-saclay) | A set of configuration files as used by University of Paris-Saclay

@@ -1,0 +1,180 @@
+{
+  "server": "https://test.cernbox.cern.ch",
+  "theme": "/cernbox/theme-cernbox-1.0.3/theme.json",
+  "openIdConnect": {
+    "metadata_url": "https://auth.cern.ch/auth/realms/cern/.well-known/openid-configuration",
+    "authority": "https://auth.cern.ch/auth/realms/cern",
+    "client_id": "cernbox-service-dev",
+    "response_type": "code",
+    "scope": "openid profile email"
+  },
+  "sentry": {
+    "dsn" : "",
+    "environment" : "development",
+    "autoSessionTracking": false
+  },
+  "options": {
+    "contextHelpers": true,
+    "runningOnEos": true,
+    "useRevaToken": true,
+    "cernFeatures": true,
+    "disableFeedbackLink": true,
+    "listVersions": false,
+    "editor": {
+      "autosaveEnabled": true,
+      "autosaveInterval": 120,
+      "openAsPreview": ["MS365", "CodiMD", "collabora (experimental)"]
+    },
+    "routing": {
+      "idBased": false,
+      "fullShareOwnerPaths": true
+    },
+    "disabledExtensions": [
+      "com.github.owncloud.web.files.search",
+      "com.github.owncloud.web.files.sidebar-panel.activities",
+      "com.github.owncloud.web.files.sidebar-panel.projects.sharing"
+    ],
+    "alertRwFolders": {
+      "en": "Anonymously writable folders might be abused to store illicit material. Therefore, the default expiration time has been set to one month. Please consider sharing to specific users or groups if the intended audience has a CERN (primary or external) account.",
+      "fr": "Les dossiers accessibles en écriture anonyme peuvent être utilisés abusivement pour stocker du contenu illicite. Par conséquent, le délai d'expiration par défaut a été fixé à un mois. Veuillez envisager de partager ces informations avec des utilisateurs ou des groupes spécifiques si le public visé possède un compte CERN (principal ou externe)."
+    }
+
+  },
+  "scripts": [
+    { "src": "/cernbox/theme-cernbox-1.0.3/custom.js", "async": false }
+  ],
+  "customTranslations": [
+    { "url": "/cernbox/theme-cernbox-1.0.3/translations.json" }
+  ],
+  "apps": [
+    "files",
+    "search",
+    "preview",
+    "external",
+    "pdf-viewer"
+    ,"ocm"
+  ],
+  "external_apps": [
+    {
+      "id": "open-in-swan",
+      "path": "/cernbox/open-in-swan-3.0.0/main.js",
+      "config": {
+      }
+    },
+    {
+      "id": "jupyter",
+      "path": "/cernbox/jupyter-3.0.0/main.js",
+      "config": {
+      }
+    },
+    {
+      "id": "rootjs",
+      "path": "/cernbox/rootjs-3.0.0/main.js",
+      "config": {
+      }
+    },
+    {
+      "id": "ifc-js",
+      "path": "/cernbox/ifc-js-3.0.0/main.js",
+      "config": {
+      }
+    },
+    {
+      "id": "old-web-redirector",
+      "path": "/cernbox/old-web-redirector-2.0.0/main.js",
+      "config": {
+      }
+    },
+    {
+      "id": "tours",
+      "path": "/cernbox/tours-2.0.1/main.js",
+      "config": {
+        "tours": [
+          "/cernbox/tours-cernbox-0.0.11/new_features.json"
+        ]
+      }
+    },
+    {
+      "id": "ms-tracing",
+      "path": "/cernbox/ms-tracing-1.0.0/main.js",
+      "config": {
+      }
+    },
+    {
+      "id": "search-in-folder",
+      "path": "/cernbox/search-in-folder-1.0.0/main.js",
+      "config": {
+      }
+    },
+    {
+      "id": "cernbox-integration",
+      "path": "/cernbox/cernbox-integration-1.0.2/main.js",
+      "config": {
+      }
+    },
+    {
+      "id": "lightweight-accounts",
+      "path": "/cernbox/lightweight-accounts-1.0.2/main.js",
+      "config": {
+      }
+    },
+    {
+      "id": "otg",
+      "path": "/cernbox/otg-1.0.1/main.js",
+      "config": {
+      }
+    },
+    {
+      "id": "draw-io",
+      "path": "/owncloud/draw-io-0.2.0/draw-io.js",
+      "config": {
+        "url": "https://drawio.web.cern.ch",
+        "theme": "minimal"
+      }
+    },
+    {
+      "id": "json-viewer",
+      "path": "/owncloud/json-viewer-0.2.0/json-viewer.js",
+      "config": {
+      }
+    },
+    {
+      "id": "unzip",
+      "path": "/owncloud/unzip-0.3.0/unzip.js",
+      "config": {
+      }
+    },
+    {
+      "id": "external-sites",
+      "path": "/owncloud/external-sites-0.3.1/external-sites.js",
+      "config": {
+        "sites": [
+          {
+            "name": "GMS - CERN Groups Portal",
+            "url": "https://groups-portal.web.cern.ch",
+            "target": "external",
+            "color": "#6f41d1",
+            "icon": "group",
+            "priority": 50
+          },
+          {
+            "name": "SWAN - Jupyter Notebooks",
+            "url": "https://swan.cern.ch",
+            "target": "external",
+            "color": "#ff6600",
+            "icon": "booklet",
+            "priority": 50
+          }
+        ]
+      }
+    },
+    {
+      "id": "text-editor",
+      "path": "web-app-text-editor",
+      "config": {
+        "primaryExtensions": ["txt"],
+        "extraExtensions": ["htm", "html", "css", "js", "ts", "php", "yml", "toml", "qml", "pl", "pm", "sh", "tcsh", "zsh", "conf", "ini", "inf", "make", "cmake", "mk", "in", "csv"]
+      }
+    }
+  ]
+}

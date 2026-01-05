@@ -1,10 +1,11 @@
 [log]
 output = "/var/log/revad/revad-homes-i00.log"
-mode = "json"
+level = "info"
+
 
 [shared]
 gatewaysvc = "localhost:9142"
-jwt_secret = "your_secret"
+jwt_secret = "your_value_here"
 skip_user_groups_in_token = true
 
 [grpc]
@@ -17,23 +18,27 @@ mount_path = "/eos/user"
 mount_id = "eoshome-i00"
 data_server_url = "http://localhost:15000/data"
 minimum_allowed_path_level_for_share = 5
+provides_space_type = "personal"
 
 [grpc.services.storageprovider.drivers.eoswrapper]
 namespace = "/eos/user/"
 quota_node = "/eos/user/"
-master_url = "root://eoshome-i00.cern.ch"
+master_url = "root://eoshomedev.cern.ch"
+master_grpc_uri = "eoshomedev.cern.ch:50051"
 user_layout = "{{substr 0 1 .Username}}/{{.Username}}"
 share_folder = "/Shares"
 xrdcopy_binary = "/opt/eos/xrootd/bin/xrdcopy"
 cache_directory = "/var/tmp/reva"
+http_client_certfile = "/etc/grid-security/cernbox-hostcert.pem"
+http_client_keyfile = "your_value_here"
+write_uses_local_temp = false
 default_quota_files = 5000000
-default_secondary_quota_bytes = 40000000000
+default_secondary_quota_bytes = 20000000000
 create_home_hook = "/opt/cbox-scripts/lifecycle/create/lifecycle_create_user.sh"
-enable_home_creation = true
+grpc_auth_key = "your_value_here"
+https_auth_key = "your_value_here"
 use_grpc = true
-grpc_auth_key = "your_key"
-https_auth_key = "your_key"
-master_grpc_uri = "eoshome-i00.cern.ch:50051"
+allow_insecure = true
 
 [http]
 address = "0.0.0.0:15000"
@@ -44,15 +49,18 @@ driver = "eoswrapper"
 [http.services.dataprovider.drivers.eoswrapper]
 namespace = "/eos/user/"
 quota_node = "/eos/user/"
+master_grpc_uri = "eoshomedev.cern.ch:50051"
 user_layout = "{{substr 0 1 .Username}}/{{.Username}}"
 xrdcopy_binary = "/opt/eos/xrootd/bin/xrdcopy"
 cache_directory = "/var/tmp/reva"
-enable_home_creation = true
+http_client_certfile = "/etc/grid-security/cernbox-hostcert.pem"
+http_client_keyfile = "your_value_here"
+write_uses_local_temp = false
+grpc_auth_key = "your_value_here"
+https_auth_key = "your_value_here"
 use_grpc = true
-master_url = "https://eoshome-i00.cern.ch:8444"
-grpc_auth_key = "your_key"
-https_auth_key = "your_key"
-master_grpc_uri = "eoshome-i00.cern.ch:50051"
+allow_insecure = true
+master_url = "https://eoshomedev.cern.ch:8444"
 
 [tracing]
 

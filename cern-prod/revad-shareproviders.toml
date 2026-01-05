@@ -1,11 +1,11 @@
 [log]
 output = "/var/log/revad/revad-shareproviders.log"
-level = "debug"
-mode = "json"
+level = "info"
+
 
 [shared]
 gatewaysvc = "localhost:9142"
-jwt_secret = "your_secret"
+jwt_secret = "your_value_here"
 skip_user_groups_in_token = true
 
 [grpc]
@@ -16,12 +16,12 @@ driver = "sql"
 allowed_paths_for_shares = ["^/eos/user/[a-z]/[0-9a-z\\-]+/.+", "^/eos/project/[a-z]/[0-9a-z\\-]+/.+"]
 
 [grpc.services.usershareprovider.drivers.sql]
-db_username = "your_db_user"
-db_password = "your_pwd"
-db_host = "dbhost"
+db_username = "cernbox_server"
+db_password = "your_value_here"
+db_host = "your_value_here"
 db_port = 5504
-db_name = "dbname"
-password_hash_cost = 11
+db_name = "test"
+password_hash_cost = "your_value_here"
 enable_expired_shares_cleanup = false
 janitor_run_interval = 60
 
@@ -29,17 +29,70 @@ janitor_run_interval = 60
 [grpc.services.publicshareprovider]
 driver = "sql"
 allowed_paths_for_shares = ["^/eos/user/[a-z]/[0-9a-z\\-]+/.+", "^/eos/project/[a-z]/[0-9a-z\\-]+/.+"]
-pub_rw_link_max_expiration = 94694400 # 3 years + 1 day
-pub_rw_link_default_expiration = 2678400 # 1 month + 1 day
+
+[grpc.services.publicshareprovider.notifications]
+nats_address = "cbox-nats-01.cern.ch:4222"
+nats_token = "your_value_here"
+nats_stream = "reva-notifications-cbox-ocistest-01"
+
+[grpc.services.publicshareprovider.notifications.templates.sharedfolder_upload_mail]
+name = "sharedfolder-upload-mail"
+handler = "email"
+subject_template_path = "/etc/revad/templates/sharedfolder-upload-mail-subject.txt"
+body_template_path = "/etc/revad/templates/sharedfolder-upload-mail-body.html"
+
+[grpc.services.publicshareprovider.notifications.templates.share_create_mail]
+name = "share-create-mail"
+handler = "email"
+subject_template_path = "/etc/revad/templates/share-create-mail-subject.txt"
+body_template_path = "/etc/revad/templates/share-create-mail-body.html"
 
 [grpc.services.publicshareprovider.drivers.sql]
-db_username = "your_db_user"
-db_password = "your_pwd"
-db_host = "dbhost"
+db_username = "cernbox_server"
+db_password = "your_value_here"
+db_host = "your_value_here"
 db_port = 5504
-db_name = "dbname"
-password_hash_cost = 11
+db_name = "test"
+password_hash_cost = "your_value_here"
 
+[grpc.services.ocmincoming]
+driver = "sql"
+
+[grpc.services.ocmincoming.drivers.sql]
+db_username = "cernbox_server"
+db_password = "your_value_here"
+db_host = "your_value_here"
+db_port = 5504
+db_name = "test"
+
+[grpc.services.ocmshareprovider]
+driver = "sql"
+webdav_prefix = "https://test.cernbox.cern.ch/remote.php/dav/files"
+provider_domain = "test.cernbox.cern.ch"
+webdav_endpoint = "https://test.cernbox.cern.ch"
+webapp_template = "https://test.cernbox.cern.ch/external/sciencemesh/{{.Token}}/{relative-path-to-shared-resource}"
+
+[grpc.services.ocmshareprovider.drivers.sql]
+db_username = "cernbox_server"
+db_password = "your_value_here"
+db_host = "your_value_here"
+db_port = 5504
+db_name = "test"
+
+[grpc.services.ocminvitemanager]
+driver = "sql"
+provider_domain = "test.cernbox.cern.ch"
+
+[grpc.services.ocminvitemanager.drivers.sql]
+db_username = "cernbox_server"
+db_password = "your_value_here"
+db_address = "dbod-cboxeos.cern.ch:5504"
+db_name = "test"
+
+[grpc.services.ocmproviderauthorizer]
+driver = "open"
+
+[http.services.pprof]
 
 [tracing]
 

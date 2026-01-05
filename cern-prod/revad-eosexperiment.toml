@@ -4,7 +4,7 @@ mode = "json"
 
 [shared]
 gatewaysvc = "localhost:9142"
-jwt_secret = "your_secret"
+jwt_secret = "your_value_here"
 skip_user_groups_in_token = true
 
 [grpc]

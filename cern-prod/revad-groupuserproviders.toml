@@ -1,11 +1,11 @@
 [log]
 output = "/var/log/revad/revad-groupuserproviders.log"
-level = "debug"
-mode = "json"
+level = "info"
+
 
 [shared]
 gatewaysvc = "localhost:9142"
-jwt_secret = "your_secret"
+jwt_secret = "your_value_here"
 skip_user_groups_in_token = true
 
 [grpc]
@@ -16,7 +16,7 @@ driver = "rest"
 
 [grpc.services.userprovider.drivers.rest]
 client_id = "cernbox-service-grappa"
-client_secret = "your_secret"
+client_secret = "your_value_here"
 redis_address = "localhost:6379"
 user_groups_cache_expiration = 360
 id_provider = "https://auth.cern.ch/auth/realms/cern"
@@ -30,7 +30,7 @@ driver = "rest"
 
 [grpc.services.groupprovider.drivers.rest]
 client_id = "cernbox-service-grappa"
-client_secret = "your_secret"
+client_secret = "your_value_here"
 redis_address = "localhost:6379"
 group_members_cache_expiration = 360
 id_provider = "https://auth.cern.ch/auth/realms/cern"

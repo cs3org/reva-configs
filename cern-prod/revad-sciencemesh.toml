@@ -1,0 +1,25 @@
+# this microservice exposes remote (OCM) storages and users to local users
+[log]
+output = "/var/log/revad/revad-sciencemesh.log"
+
+
+[shared]
+gatewaysvc = "localhost:9142"
+jwt_secret = "your_value_here"
+skip_user_groups_in_token = true
+
+[grpc]
+address = "0.0.0.0:20000"
+
+[grpc.services.storageprovider]
+driver = "ocmreceived"
+mount_path = "/ocm-received"
+mount_id = "ocm-received"
+data_server_url = "http://localhost:20001/data"
+
+[http]
+address = "0.0.0.0:20001"
+
+[http.services.dataprovider]
+driver = "ocmreceived"
+

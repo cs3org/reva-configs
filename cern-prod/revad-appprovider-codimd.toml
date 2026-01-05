@@ -1,10 +1,10 @@
 [log]
 output = "/var/log/revad/revad-codimd.log"
-mode = "json"
+
 
 [shared]
 gatewaysvc = "localhost:9142"
-jwt_secret = "your_secret"
+jwt_secret = "your_value_here"
 skip_user_groups_in_token = true
 
 [grpc]
@@ -17,13 +17,13 @@ custom_mime_types_json = "/etc/revad/custom-mimetypes.json"
 app_provider_url = "localhost:18501"
 
 [grpc.services.appprovider.drivers.wopi]
-iop_secret = "your_secret"
-wopi_url = "https://wopi.cernbox.cern.ch:8443"
-folder_base_url = "https://cernbox.cern.ch"
+iop_secret = "your_value_here"
+wopi_url = "https://wopitest.cernbox.cern.ch:8443"
+folder_base_url = "https://test.cernbox.cern.ch"
 app_name = "CodiMD"
-app_url = "https://cernbox-codimd.web.cern.ch"
-app_int_url = "https://cernbox-codimd.web.cern.ch"
-app_icon_uri = "https://cernbox.cern.ch/cernbox/theme-cernbox-0.2.0/assets/codimd-line.svg"
+app_url = "https://cernbox-codimd-dev.app.cern.ch"
+app_int_url = "https://cernbox-codimd-dev.app.cern.ch"
+app_icon_uri = "https://test.cernbox.cern.ch/cernbox/theme-cernbox-1.0.4/assets/codimd-line.svg"
 insecure_connections = true
 
 [tracing]

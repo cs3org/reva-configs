@@ -1,10 +1,10 @@
 [log]
 output = "/var/log/revad/revad-auth-oidc.log"
-mode = "json"
+
 
 [shared]
 gatewaysvc = "localhost:9142"
-jwt_secret = "your_secret"
+jwt_secret = "your_value_here"
 
 [grpc]
 address = "localhost:9158"

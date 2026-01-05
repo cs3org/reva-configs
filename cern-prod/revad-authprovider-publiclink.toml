@@ -1,13 +1,13 @@
 [log]
 output = "/var/log/revad/revad-auth-publiclink.log"
-mode = "json"
+
 
 [grpc]
 address = "localhost:9278"
 
 [shared]
 gatewaysvc = "localhost:9142"
-jwt_secret = "your_secret"
+jwt_secret = "your_value_here"
 
 [grpc.services.publicstorageprovider]
 mount_path = "/public"

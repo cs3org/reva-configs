@@ -1,0 +1,17 @@
+[
+    {
+        "username": "testuser",
+        "id": {
+        "idp": "http://localhost:20080",
+        "opaque_id": "testuser",
+        "type": 1
+        },
+        "secret": "testpass",
+        "display_name": "Test User",
+        "mail": "test@example.com",
+        "mail_verified": true,
+        "groups": ["users"],
+        "uid_number": 1000,
+        "gid_number": 1000
+    }
+]

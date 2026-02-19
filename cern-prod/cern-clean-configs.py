@@ -7,7 +7,7 @@ from pathlib import Path
 import tomlkit
 
 
-REDACTED_VALUE = "your_value_here"
+REDACTED_VALUE = "_redacted_"
 
 
 def should_redact(key: str, keywords: list[str]) -> bool:

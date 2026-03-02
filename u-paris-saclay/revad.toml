@@ -22,20 +22,16 @@ datagateway = "https://reva.mesocentre.universite-paris-saclay.fr/datagateway"
 home_layout = "/users/{{.Username}}"
 
 [grpc.services.storageprovider]
-driver = "cephfs"
+driver = "cephmount"
 mount_path = "/"
 mount_id = "cephfs"
 data_server_url = "http://localhost:9143/data"
 
-[grpc.services.storageprovider.drivers.cephfs]
-root = "/"
-config = "/etc/ceph/ceph.conf"
-keyring = "/etc/ceph/ceph.client.cernbox.keyring"
-client_id = "cernbox"
-enable_recycle = false
+[grpc.services.storageprovider.drivers.cephmount]
+fstabentry = "ijclab_fstab_entry"
+root_dir = "/cephfs"
 dir_perms = 0o700
 file_perms = 0o600
-user_layout = "/users/{{.Username}}"
 
 [grpc.services.gateway.token_managers.jwt]
 expires = 1500
@@ -46,6 +42,15 @@ driver = "static"
 [grpc.services.authregistry.drivers.static.rules]
 basic = "localhost:9142"
 bearer = "localhost:9158"
+
+[grpc.services.spacesregistry]
+driver = "memory"
+user_space = "/users/{{ .Username }}"
+machine_secret = "your_secret"
+resource_info_cache_ttl = 300
+resource_info_cache_type = "memory"
+
+[grpc.services.spacesregistry.drivers.memory]
 
 [grpc.services.storageregistry]
 driver = "static"
@@ -117,6 +122,13 @@ timeout = 86400
 insecure = true
 prefix = "datagateway"
 
+[http.services.ocgraph]
+ocm_enabled = true
+base_url = "https://reva.mesocentre.universite-paris-saclay.fr"
+pub_rw_link_max_expiration = 94694400 # 3 years + 1 day
+pub_rw_link_default_expiration = 2678400 # 1 month + 1 day
+
+[http.services.ocapi]
 
 [http.services.ocdav]
 files_namespace = "/"
@@ -152,15 +164,11 @@ undelete = true
 versioning = true
 
 [http.services.dataprovider]
-driver = "cephfs"
+driver = "cephmount"
 
-[http.services.dataprovider.drivers.cephfs]
-root = "/"
-config = "/etc/ceph/ceph.conf"
-keyring = "/etc/ceph/ceph.client.cernbox.keyring"
-client_id = "cernbox"
-disable_home = false
-enable_recycle = false
+[http.services.dataprovider.drivers.cephmount]
+fstabentry = "ijclab_fstab_entry"
+root_dir = "/cephfs"
 dir_perms = 0o700
 file_perms = 0o600
-user_layout = "/users/{{.Username}}"
+

@@ -57,6 +57,14 @@ driver = "memory"
 driver = "json"
 
 # Note that ocmincoming and ocmshareprovider should use the same file for storing the shares.
+#
+# NOTE: these json files are the server's entire OCM federation state:
+# accepted invites, and shares including their access secrets. If you are
+# running this config in a container or in production, point these paths at
+# durable storage: /var/tmp dies with the container, and on several Linux
+# distributions systemd-tmpfiles ages idle /var/tmp entries out after 30 days.
+# Losing these files breaks every federation relationship
+# while remote servers keep shares that now point nowhere.
 [grpc.services.ocmincoming.drivers.json]
 file = "/var/tmp/reva/shares_server_2.json"
 

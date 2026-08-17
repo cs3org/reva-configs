@@ -70,7 +70,7 @@ driver = "sql"
 webdav_prefix = "https://test.cernbox.cern.ch/remote.php/dav/files"
 provider_domain = "test.cernbox.cern.ch"
 webdav_endpoint = "https://test.cernbox.cern.ch"
-webapp_template = "https://test.cernbox.cern.ch/external/sciencemesh/{{.Token}}/{relative-path-to-shared-resource}"
+webapp_endpoint = "https://test.cernbox.cern.ch/external/sciencemesh"
 
 [grpc.services.ocmshareprovider.drivers.sql]
 db_username = "cernbox_server"

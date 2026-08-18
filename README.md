@@ -10,7 +10,7 @@ Basic configs | Description
 [cephfs](./cephfs) | An example of configuration to run Reva on top of CephFS
 [cernbox](./cernbox) | A self-contained configuration to run CERNBox on a single node or container
 [sciencemesh](./sciencemesh) | A container-based configuration for a ScienceMesh node with ownCloud or Nextcloud
-[ocm](./ocm) | A minimal configuration to run two Reva servers with [OCM](https://githunb.com/cs3org/OCM-API) support
+[ocm](./ocm) | A minimal configuration to run two Reva servers with [OCM](https://github.com/cs3org/OCM-API) support
 
 The following configurations serve as reference for community deployments. PRs with (redacted) configurations are welcome from sites deploying Reva for the benefit of the community.
 

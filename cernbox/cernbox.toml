@@ -97,6 +97,8 @@ basic = "{{ grpc.services.authprovider[0].address }}"
 bearer = "{{ grpc.services.authprovider[0].address }}"
 machine = "{{ grpc.services.authprovider[1].address }}"
 ocmshares = "{{ grpc.services.authprovider[2].address }}"
+ocmsharecode = "{{ grpc.services.authprovider[3].address }}"
+ocmexchangedtoken = "{{ grpc.services.authprovider[4].address }}"
 
 [[grpc.services.authprovider]]
 auth_manager = "oidc"
@@ -119,6 +121,12 @@ gateway_addr = "{{ vars.internal_gateway }}:19000"
 
 [[grpc.services.authprovider]]
 auth_manager = "ocmshares"
+
+[[grpc.services.authprovider]]
+auth_manager = "ocmsharecode"
+
+[[grpc.services.authprovider]]
+auth_manager = "ocmexchangedtoken"
 
 
 ### STORAGE ###
@@ -299,10 +307,12 @@ provider = "Reva for CERNBox"
 endpoint = "{{ vars.external_reva_endpoint }}"
 enable_webapp = true
 enable_datatx = true
+enable_code_flow = true
 
 [http.services.ocm]
 address = ":443"
 prefix = "ocm"
+token_manager = "jwt"
 
 [http.services.ocm.config]
 host = "{{ vars.provider_domain }}"

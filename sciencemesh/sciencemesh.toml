@@ -1,21 +1,18 @@
-## Example configuration for the ScienceMesh app in ownCloud 10 / Nextcloud
+## Historical EFSS sidecar for ownCloud 10 / Nextcloud
 #
-## To contextualize this configuration for your deployment, please follow these steps:
+# This file is a ScienceMesh sidecar beside ownCloud or Nextcloud.
+# Reva 3.11.0 (PR 5671) dropped the Nextcloud storage, user, auth, and
+# OCM share/invite repositories. Stock Reva cannot start this file.
+# Installing one leftover plugin does not restore the dropped repos.
 #
-# 1. In the [vars] section below, replace `your.revad.org` with your actual domain
-# 2. If you have a Kubernetes deployment with an ingress and a route:
-# 2.1. Set the `external_reva_endpoint` var to your actual externally-visible route to reva
-# 3. Replace `your.efss.org` with the actual endpoint of your EFSS system
-# 4. Define appropriate secrets in the [vars] section: the `efss_shared_secret` must match the `oc_appconfig.configvalue` in your EFSS DB for `oc_appconfig.app_id` = `sciencemesh`
-# 5. Provide appropriate SSL full chain certificate and key files in the [http] section
+# Startable OCM examples: ../ocm (two HTTP localhost nodes) and
+# ../cernbox/cernbox.toml (single CERNBox-grade node).
+# For the received vs invite path split used in production, see
+# ../cern-prod: revad-http, revad-ocm, revad-gateway, and
+# revad-sciencemesh.
 #
-# If you want to terminate the SSL connection to reva at your reverse proxy system
-# (e.g. at your Kubernetes ingress), then you can configure reva to use http instead.
-# For that, you need to follow these steps:
-#
-# 1. Remove the `certfile` and `keyfile` entries from the [http] section
-# 2. Replace the https port `443` with a port number of your choice everywhere you find it
-# 3. Look for `data_server_url` and replace the `https://localhost` address as indicated
+# HTTP invite and webapp paths stay /sciencemesh. That URL is not
+# the received storage mount.
 
 
 [vars]
@@ -152,7 +149,6 @@ shared_secret = "{{ vars.efss_shared_secret }}"
 mock_http = false
 
 [grpc.services.ocminvitemanager]
-# TODO the driver should be "nextcloud" once it is implemented
 driver = "json"
 provider_domain = "{{ vars.provider_domain }}"
 

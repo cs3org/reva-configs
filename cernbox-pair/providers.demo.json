@@ -1,0 +1,100 @@
+[
+	{
+		"name": "cernbox1",
+		"full_name": "CERNBox pair node 1",
+		"organization": "Example",
+		"domain": "cernbox1.example.org",
+		"homepage": "https://cernbox1.example.org",
+		"description": "Example CERNBox-grade Reva node in a two-peer HTTPS pair.",
+		"services": [
+			{
+				"endpoint": {
+					"type": {
+						"name": "OCM",
+						"description": "Open Cloud Mesh API"
+					},
+					"name": "cernbox1 - OCM API",
+					"path": "https://cernbox1.example.org/ocm/",
+					"is_monitored": true
+				},
+				"api_version": "0.0.1",
+				"host": "cernbox1.example.org"
+			},
+			{
+				"endpoint": {
+					"type": {
+						"name": "Webdav",
+						"description": "WebDAV API"
+					},
+					"name": "cernbox1 - WebDAV API",
+					"path": "https://cernbox1.example.org/remote.php/webdav/",
+					"is_monitored": true
+				},
+				"api_version": "0.0.1",
+				"host": "cernbox1.example.org"
+			},
+			{
+				"endpoint": {
+					"type": {
+						"name": "Gateway",
+						"description": "Reva gRPC gateway"
+					},
+					"name": "cernbox1 - gRPC Gateway",
+					"path": "cernbox1.example.org:19000",
+					"is_monitored": true
+				},
+				"api_version": "0.0.1",
+				"host": "cernbox1.example.org:19000"
+			}
+		]
+	},
+	{
+		"name": "cernbox2",
+		"full_name": "CERNBox pair node 2",
+		"organization": "Example",
+		"domain": "cernbox2.example.org",
+		"homepage": "https://cernbox2.example.org",
+		"description": "Example CERNBox-grade Reva node in a two-peer HTTPS pair.",
+		"services": [
+			{
+				"endpoint": {
+					"type": {
+						"name": "OCM",
+						"description": "Open Cloud Mesh API"
+					},
+					"name": "cernbox2 - OCM API",
+					"path": "https://cernbox2.example.org/ocm/",
+					"is_monitored": true
+				},
+				"api_version": "0.0.1",
+				"host": "cernbox2.example.org"
+			},
+			{
+				"endpoint": {
+					"type": {
+						"name": "Webdav",
+						"description": "WebDAV API"
+					},
+					"name": "cernbox2 - WebDAV API",
+					"path": "https://cernbox2.example.org/remote.php/webdav/",
+					"is_monitored": true
+				},
+				"api_version": "0.0.1",
+				"host": "cernbox2.example.org"
+			},
+			{
+				"endpoint": {
+					"type": {
+						"name": "Gateway",
+						"description": "Reva gRPC gateway"
+					},
+					"name": "cernbox2 - gRPC Gateway",
+					"path": "cernbox2.example.org:19000",
+					"is_monitored": true
+				},
+				"api_version": "0.0.1",
+				"host": "cernbox2.example.org:19000"
+			}
+		]
+	}
+]

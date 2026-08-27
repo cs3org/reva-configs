@@ -11,6 +11,7 @@ Basic configs | Description
 [cernbox](./cernbox) | A self-contained configuration to run CERNBox on a single node or container
 [sciencemesh](./sciencemesh) | A container-based configuration for a ScienceMesh node with ownCloud or Nextcloud
 [ocm](./ocm) | A minimal configuration to run two Reva servers with [OCM](https://githunb.com/cs3org/OCM-API) support
+[cernbox-pair](./cernbox-pair) | Two HTTPS CERNBox-grade nodes with LibreGraph and received OCM; bring your own TLS
 
 The following configurations serve as reference for community deployments. PRs with (redacted) configurations are welcome from sites deploying Reva for the benefit of the community.
 

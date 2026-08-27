@@ -1,6 +1,6 @@
-## Example configuration to run a dockerized CERNBox for ScienceMesh tests
+## Example configuration to run CERNBox on a single node
 #
-# The following variables are actualized by the scripts in tests/sciencemesh/scripts
+# Received OCM storage is /ocm-received. HTTP invite paths stay /sciencemesh.
 
 [vars]
 internal_gateway = "your.revad.org"
@@ -37,10 +37,12 @@ ocmshareprovidersvc = "{{ grpc.services.ocmshareprovider.address }}"
 ocminvitemanagersvc = "{{ grpc.services.ocminvitemanager.address }}"
 ocmproviderauthorizersvc = "{{ grpc.services.ocmproviderauthorizer.address }}"
 datagateway = "https://{{ http.services.datagateway.address }}/data"
+spacessvc = "{{ grpc.services.spacesregistry.address }}"
 
 transfer_expires = 6     # give it a moment
 commit_share_to_storage_grant = true
 commit_share_to_storage_ref = true
+ocm_enabled = true
 
 
 ### APPS ###
@@ -142,8 +144,13 @@ home_provider = "/"
 "localhome" = {"address" = "{{ grpc.services.storageprovider[0].address }}"}
 "/ocm" = {"address" = "{{ grpc.services.storageprovider[1].address }}"}
 "ocm" = {"address" = "{{ grpc.services.storageprovider[1].address }}"}
-"/sciencemesh" = { address = "{{ grpc.services.storageprovider[2].address }}" }
-"sciencemesh" = { address = "{{ grpc.services.storageprovider[2].address }}" }
+"/ocm-received" = { address = "{{ grpc.services.storageprovider[2].address }}" }
+"ocm-received" = { address = "{{ grpc.services.storageprovider[2].address }}" }
+
+[grpc.services.spacesregistry]
+driver = "memory"
+user_space = "/home"
+machine_secret = "{{ vars.machine_api_key }}"
 
 [[grpc.services.storageprovider]]
 driver = "localhome"
@@ -155,6 +162,7 @@ enable_home_creation = true
 
 [grpc.services.storageprovider.drivers.localhome]
 user_layout = "{{.Username}}"
+virtual_home_template = "/home/{{.Username}}"
 root = "/revalocalstorage"
 share_folder = "/revashares"
 
@@ -171,8 +179,8 @@ machine_secret = "{{ vars.machine_api_key }}"
 
 [[grpc.services.storageprovider]]
 driver = "ocmreceived"
-mount_path = "/sciencemesh"
-mount_id = "sciencemesh"
+mount_path = "/ocm-received"
+mount_id = "ocm-received"
 expose_data_server = true
 # this must be accessible from the GUI, therefore the hostname will be replaced
 data_server_url = "https://your.revad.org:{{ http.services.dataprovider[2].address.port }}/data"
@@ -274,6 +282,7 @@ driver = "localhome"
 
 [http.services.dataprovider.drivers.localhome]
 user_layout = "{{.Username}}"
+virtual_home_template = "/home/{{.Username}}"
 root = "/revalocalstorage"
 
 [[http.services.dataprovider]]
@@ -289,7 +298,7 @@ driver = "ocmreceived"
 [http.services.sciencemesh]
 address = ":443"
 provider_domain = "{{ vars.provider_domain }}"
-mesh_directory_url = "https:/meshdir.docker/meshdir"
+mesh_directory_url = "https://meshdir.docker/meshdir"
 ocm_mount_point = "/sciencemesh"
 
 [http.services.sciencemesh.smtp_credentials]
@@ -398,7 +407,7 @@ outgoing = true
 incoming = true
 
 [http.services.ocs.capabilities.capabilities.spaces]
-enabled = false
+enabled = true
 projects = true
 
 [http.services.ocs.capabilities.version]
@@ -411,6 +420,11 @@ string = "10.0.11"
 [http.services.ocdav]
 address = ":443"
 insecure = true
+
+[http.services.ocgraph]
+address = ":443"
+base_url = "{{ vars.external_reva_endpoint }}"
+ocm_enabled = true
 
 [http.services.prometheus]
 address = ":443"

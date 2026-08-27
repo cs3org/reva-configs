@@ -10,6 +10,8 @@ home_provider = "/home"
 "/home" = {"address" = "localhost:17000"}
 "/reva" = {"address" = "localhost:18000"}
 "/public" = {"address" = "localhost:16000"}
+"/ocm" = {"address" = "localhost:30000"}
+"ocm" = {"address" = "localhost:30000"}
 "/ocm-received" = {"address" = "localhost:20000"}
 "ocm-received" = {"address" = "localhost:20000"}
 "123e4567-e89b-12d3-a456-426655440000" = {"address" = "localhost:18000"}
@@ -21,6 +23,7 @@ home_provider = "/home"
 basic = "localhost:19000"
 publicshares = "localhost:16000"
 appauth = "localhost:15000"
+ocmshares = "localhost:30000"
 
 [grpc.services.applicationauth]
 [grpc.services.userprovider]

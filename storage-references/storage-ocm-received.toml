@@ -1,0 +1,14 @@
+[grpc]
+address = "0.0.0.0:20000"
+
+[grpc.services.storageprovider]
+driver = "ocmreceived"
+mount_path = "/ocm-received"
+mount_id = "ocm-received"
+data_server_url = "http://localhost:20001/data"
+
+[http]
+address = "0.0.0.0:20001"
+
+[http.services.dataprovider]
+driver = "ocmreceived"

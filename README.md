@@ -8,9 +8,9 @@ Basic configs | Description
 [helloworld](./helloworld) | A minimal configuration to bootstrap Reva
 [basic](./basic) | A basic configuration that uses json files to manage users and groups, and uses localfs as the storage driver
 [cephfs](./cephfs) | An example of configuration to run Reva on top of CephFS
-[cernbox](./cernbox) | A self-contained configuration to run CERNBox on a single node or container
-[sciencemesh](./sciencemesh) | A container-based configuration for a ScienceMesh node with ownCloud or Nextcloud
-[ocm](./ocm) | A minimal configuration to run two Reva servers with [OCM](https://githunb.com/cs3org/OCM-API) support
+[cernbox](./cernbox) | A self-contained CERNBox node with LibreGraph spaces and received OCM at /ocm-received
+[sciencemesh](./sciencemesh) | Historical EFSS sidecar for ownCloud or Nextcloud; stock Reva 3.11+ cannot start it as-is
+[ocm](./ocm) | A minimal configuration to run two Reva servers with [OCM](https://github.com/cs3org/OCM-API) support
 [cernbox-pair](./cernbox-pair) | Two HTTPS CERNBox-grade nodes with LibreGraph and received OCM; bring your own TLS
 
 The following configurations serve as reference for community deployments. PRs with (redacted) configurations are welcome from sites deploying Reva for the benefit of the community.

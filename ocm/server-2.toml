@@ -47,8 +47,8 @@ home_provider = "/home"
 "123e4567-e89b-12d3-a456-426655440000" = { address = "{{ grpc.services.storageprovider[0].address }}" }
 "/ocm" = { address = "{{ grpc.services.storageprovider[1].address }}" }
 "ocm" = { address = "{{ grpc.services.storageprovider[1].address }}" }
-"/sciencemesh" = { address = "{{ grpc.services.storageprovider[2].address }}" }
-"sciencemesh" = { address = "{{ grpc.services.storageprovider[2].address }}" }
+"/ocm-received" = { address = "{{ grpc.services.storageprovider[2].address }}" }
+"ocm-received" = { address = "{{ grpc.services.storageprovider[2].address }}" }
 
 [grpc.services.usershareprovider]
 driver = "memory"
@@ -57,6 +57,14 @@ driver = "memory"
 driver = "json"
 
 # Note that ocmincoming and ocmshareprovider should use the same file for storing the shares.
+#
+# NOTE: these json files are the server's entire OCM federation state:
+# accepted invites, and shares including their access secrets. If you are
+# running this config in a container or in production, point these paths at
+# durable storage: /var/tmp dies with the container, and on several Linux
+# distributions systemd-tmpfiles ages idle /var/tmp entries out after 30 days.
+# Losing these files breaks every federation relationship
+# while remote servers keep shares that now point nowhere.
 [grpc.services.ocmincoming.drivers.json]
 file = "/var/tmp/reva/shares_server_2.json"
 
@@ -70,6 +78,8 @@ file = "/var/tmp/reva/invites_server_2.json"
 [grpc.services.ocmshareprovider]
 driver = "json"
 webdav_endpoint = "http://localhost:{{ http.services.ocdav.address.port }}"
+# Graph/DAV space IDs encode /ocm-received/{id}. This URL is the advertised
+# webapp endpoint, not the received storage mount.
 webapp_endpoint = "http://localhost:{{ http.services.ocdav.address.port }}/external/sciencemesh"
 provider_domain = "{{ vars.provider_domain }}"
 
@@ -108,10 +118,12 @@ data_server_url = "http://localhost:{{ http.services.dataprovider[1].address.por
 machine_secret = "machine-api-key"
 
 
+# Received WebDAV pull requires HTTPS on current Reva. There is no
+# ocmreceived allow_http key. localhost HTTP cannot pull received shares.
 [[grpc.services.storageprovider]]
 driver = "ocmreceived"
-mount_path = "/sciencemesh"
-mount_id = "sciencemesh"
+mount_path = "/ocm-received"
+mount_id = "ocm-received"
 expose_data_server = true
 data_server_url = "http://localhost:{{ http.services.dataprovider[2].address.port }}/data"
 
@@ -166,6 +178,9 @@ driver = "ocmreceived"
 [http.services.ocm]
 address = "0.0.0.0:80"
 expose_recipient_display_name = true
+
+[http.services.wellknown]
+address = "0.0.0.0:80"
 
 [http.services.wellknown.ocmprovider]
 ocm_prefix = "ocm"

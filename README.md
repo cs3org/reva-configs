@@ -11,6 +11,7 @@ Basic configs | Description
 [cernbox](./cernbox) | A self-contained CERNBox node with LibreGraph spaces and received OCM at /ocm-received
 [sciencemesh](./sciencemesh) | Historical EFSS sidecar for ownCloud or Nextcloud; stock Reva 3.11+ cannot start it as-is
 [ocm](./ocm) | A minimal configuration to run two Reva servers with [OCM](https://github.com/cs3org/OCM-API) support
+[cernbox-pair](./cernbox-pair) | Two HTTPS CERNBox-grade nodes with LibreGraph and received OCM; bring your own TLS
 
 The following configurations serve as reference for community deployments. PRs with (redacted) configurations are welcome from sites deploying Reva for the benefit of the community.
 

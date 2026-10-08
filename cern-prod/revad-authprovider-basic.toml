@@ -6,6 +6,8 @@ output = "/var/log/revad/revad-auth-basic.log"
 gatewaysvc = "localhost:9142"
 jwt_secret = "your_value_here"
 
+
+
 [grpc]
 address = "localhost:9156"
 
@@ -13,14 +15,13 @@ address = "localhost:9156"
 auth_manager = "ldap"
 
 [grpc.services.authprovider.auth_managers.ldap]
-hostname = "cerndc.cern.ch"
+hostname = "host.example.org"
 port = 636
-base_dn = "OU=Users,OU=Organic Units,DC=cern,DC=ch"
+base_dn = "your_value_here"
 loginfilter = "(&(objectClass=user)(cn={{login}}))"
-bind_username = "CN=boxsvc,OU=Users,OU=Organic Units,DC=cern,DC=ch"
+bind_username = "your_value_here"
 bind_password = "your_value_here"
-idp = "https://auth.cern.ch/auth/realms/cern"
+idp = "https://host.example.org/auth/realms/cern"
 schema = { dn = "dn", uid = "cn", mail = "mail", displayName = "displayname", cn = "cn" }
 gatewaysvc = "localhost:9142"
 
-[tracing]

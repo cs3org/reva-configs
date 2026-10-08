@@ -6,6 +6,8 @@ output = "/var/log/revad/revad-auth-oidc.log"
 gatewaysvc = "localhost:9142"
 jwt_secret = "your_value_here"
 
+
+
 [grpc]
 address = "localhost:9158"
 
@@ -13,9 +15,12 @@ address = "localhost:9158"
 auth_manager = "oidc"
 
 [grpc.services.authprovider.auth_managers.oidc]
-issuer = "https://auth.cern.ch/auth/realms/cern"
+issuer = "https://host.example.org/auth/realms/cern"
 uid_claim = "cern_uid"
 gid_claim = "cern_gid"
 gatewaysvc = "localhost:9142"
+default_id_claim = "email"
 
-[tracing]
+
+[grpc.services.authprovider.auth_managers.oidc.idp_to_id_claim]
+"f3700f7d-85b5-4b29-b6b4-987522ac9ea6" = "sub"

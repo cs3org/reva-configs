@@ -16,6 +16,7 @@ driver = "ocmoutcoming"
 mount_path = "/ocm"
 mount_id = "ocm"
 data_server_url = "http://localhost:30001/data"
+space_depth = 2
 
 [grpc.services.storageprovider.drivers.ocmoutcoming]
 machine_secret = "your_value_here"

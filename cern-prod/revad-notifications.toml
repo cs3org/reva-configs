@@ -6,25 +6,97 @@ output = "/var/log/revad/revad-notifications.log"
 gatewaysvc = "localhost:9142"
 jwt_secret = "your_value_here"
 skip_user_groups_in_token = true
-
-[serverless.services.notifications]
-nats_address = "cbox-nats-01.cern.ch:4222"
-nats_token = "your_value_here"
-nats_prefix = "reva-notifications-cbox-ocistest-01"
-storage_driver = "sql"
-grouping_interval = 60
-grouping_max_size = 100
-
-[serverless.services.notifications.storage_drivers.sql]
-db_username = "cernbox_server"
+db_username = "your_value_here"
 db_password = "your_value_here"
 db_host = "your_value_here"
 db_port = 5504
 db_name = "test"
 
+[serverless.services.notifications]
+nats_address = "host.example.org:4222"
+nats_token = "your_value_here"
+storage_driver = "sql"
+max_rendered_items = 100
+
+[serverless.services.notifications.nats]
+namespace = "box_dev"
+
 [serverless.services.notifications.handlers.email]
-smtp_server = "cernmx.cern.ch:25"
+smtp_server = "host.example.org:25"
 disable_auth = true
-default_sender = "noreply@cern.ch"
+default_sender = "CERNBox - noreply <user@example.org>"
+cid_folder = "/etc/revad/cid/"
+
+[serverless.services.notifications.handlers.email.templates.sharedfolder_upload_mail]
+name = "sharedfolder-upload-mail"
+subject_template_path = "/etc/revad/templates/sharedfolder-upload-subject.txt"
+body_template_path = "/etc/revad/templates/sharedfolder-upload.html"
+
+[serverless.services.notifications.handlers.email.templates.share_create_mail]
+name = "share-create-mail"
+subject_template_path = "/etc/revad/templates/share-create-subject.txt"
+body_template_path = "/etc/revad/templates/share-create.html"
+
+[serverless.services.notifications.handlers.email.templates.feedback_mail]
+name = "feedback-mail"
+subject_template_path = "/etc/revad/templates/feedback-subject.txt"
+body_template_path = "/etc/revad/templates/feedback.html"
+
+[serverless.services.notifications.handlers.email.templates.office_mention_mail]
+name = "office-mention-mail"
+subject_template_path = "/etc/revad/templates/office-mention-subject.txt"
+body_template_path = "/etc/revad/templates/office-mention.html"
+
+[serverless.services.notifications.events.share-creation]
+type = "direct"
+
+[serverless.services.notifications.events.share-creation.handlers.email]
+template_name = "share-create-mail"
+
+[serverless.services.notifications.events.share-reminder]
+type = "direct"
+
+[serverless.services.notifications.events.share-reminder.handlers.email]
+template_name = "share-create-mail"
+
+[serverless.services.notifications.events.upload]
+type = "accumulated"
+dedup_key_template = "your_value_here"
+
+[serverless.services.notifications.events.upload.accumulation]
+window_seconds = 60
+max_items = 100
+
+[serverless.services.notifications.events.upload.handlers.email]
+template_name = "sharedfolder-upload-mail"
+
+[serverless.services.notifications.events.feedback]
+type = "direct"
+
+[serverless.services.notifications.events.feedback.handlers.email]
+template_name = "feedback-mail"
+
+[serverless.services.notifications.events.office-mention]
+type = "accumulated"
+dedup_key_template = "your_value_here"
+
+[serverless.services.notifications.events.office-mention.accumulation]
+window_seconds = 60
+max_items = 100
+
+[serverless.services.notifications.events.office-mention.handlers.email]
+template_name = "office-mention-mail"
 
 [tracing]
+
+
+[serverless.services.notifications.handlers.email.templates.takeout_ready]
+name = "takeout-ready"
+subject_template_path = "/etc/revad/templates/takeout-ready-subject.txt"
+body_template_path = "/etc/revad/templates/takeout-ready.html"
+
+[serverless.services.notifications.events.takeout]
+type = "direct"
+
+[serverless.services.notifications.events.takeout.handlers.email]
+template_name = "takeout-ready"

@@ -7,6 +7,8 @@ gatewaysvc = "localhost:9142"
 jwt_secret = "your_value_here"
 skip_user_groups_in_token = true
 
+
+
 [grpc]
 address = "0.0.0.0:18504"
 
@@ -19,13 +21,12 @@ language = "en-GB"
 
 [grpc.services.appprovider.drivers.wopi]
 iop_secret = "your_value_here"
-wopi_url = "https://wopitest.cernbox.cern.ch:8443"
-folder_base_url = "https://test.cernbox.cern.ch"
+wopi_url = "https://host.example.org:8443"
+folder_base_url = "https://host.example.org"
 app_name = "MS365"
-app_url = "https://onenote.officeapps.live.com"
-app_icon_uri = "https://test.cernbox.cern.ch/cernbox/theme-cernbox-1.0.4/assets/msoffice-cloud-line.svg"
+app_url = "https://chc-onenote.officeapps.live.com"
+app_icon_uri = "https://host.example.org/cernbox/theme-cernbox-1.0.6/assets/msoffice-cloud-line.svg"
 insecure_connections = false
 custom_mime_types_json = "/etc/revad/custom-mimetypes.json"
 
-[tracing]
 

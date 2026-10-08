@@ -8,6 +8,13 @@ level = "info"
 gatewaysvc = "localhost:9142"
 jwt_secret = "your_value_here"
 skip_user_groups_in_token = true
+db_username = "your_value_here"
+db_password = "your_value_here"
+db_host = "your_value_here"
+db_port = 5504
+db_name = "test"
+
+
 
 [grpc]
 address = "0.0.0.0:9142"
@@ -39,15 +46,21 @@ ocmincomingsvc = "localhost:9144"
 ocmshareprovidersvc = "localhost:9144"
 ocminvitemanagersvc = "localhost:9144"
 ocmproviderauthorizersvc = "localhost:9144"
+applicationauthsvc = "localhost:9146"
 
 
-datagateway = "https://test.cernbox.cern.ch/data"
+datagateway = "https://host.example.org/data"
 
 allowed_user_agents = { "/home" = ["grpc", "desktop"] }
 
 [grpc.services.gateway.token_managers.jwt]
 expires_next_weekend = true
 expires = 86400
+
+[grpc.services.gateway.events.nats]
+address = "host.example.org:4222"
+token = "your_value_here"
+namespace = "box_dev"
 
 [grpc.services.authregistry]
 driver = "static"
@@ -58,20 +71,18 @@ bearer = "localhost:9158"
 machine = "localhost:9166"
 publicshares = "localhost:9278"
 ocmshares = "localhost:30000"
+appauth = "localhost:9146"
 
 [grpc.services.spacesregistry]
 driver = "sql"
 user_space = "/eos/user/{{substr 0 1 .Username}}/{{ .Username }}"
+space_resolution_timeout = 1
 machine_secret = "your_value_here"
 resource_info_cache_ttl = 300
 resource_info_cache_type = "memory"
 
 [grpc.services.spacesregistry.drivers.sql]
-db_username = "cernbox_server"
-db_password = "your_value_here"
-db_host = "your_value_here"
-db_port = 5504
-db_name = "test"
+
 
 [grpc.services.appregistry]
 driver = "static"
@@ -104,15 +115,9 @@ driver = "dynamic"
 
 
 [grpc.services.storageregistry.drivers.dynamic]
-db_username = "cernbox_server"
-db_password = "your_value_here"
-db_host = "your_value_here"
-db_port = 5504
-db_name = "test"
 home_path = "/home"
 
 [grpc.services.storageregistry.drivers.dynamic.rules]
-"eosproject-i00" = "localhost:14500"
 "eoshome-i00" = "localhost:16000"
 "public" = "localhost:9278"
 "ocm" = "localhost:30000"
@@ -122,27 +127,12 @@ home_path = "/home"
 [grpc.services.storageregistry.drivers.dynamic.rewrites]
 "/home" = "eoshome-{{substr 0 1 .Id.OpaqueId}}"
 
-[grpc.services.storageregistry.drivers.dynamic.aliases]
-"eoshome-[dlntz]" = "eoshome-i00"
-"eoshome-[agjkw]" = "eoshome-i01"
-"eoshome-[horsy]" = "eoshome-i02"
-"eoshome-[bemvx]" = "eoshome-i03"
-"eoshome-[cfipqu]" = "eoshome-i04"
-"newproject-[aegjkqvy]" = "eosproject-i00"
-"newproject-[bfhlnopsw]" = "eosproject-i01"
-"newproject-[cdimrtuxz]" = "eosproject-i02"
-
-
 [grpc.services.preferences]
 driver = "sql"
 
 [grpc.services.preferences.drivers.sql]
-db_username = "cernbox_server"
-db_password = "your_value_here"
-db_host = "your_value_here"
-db_port = 5504
-db_name = "test"
 
+[grpc.services.labelsprovider]
+driver = "sql"
 
-[tracing]
-
+[grpc.services.labelsprovider.drivers.sql]

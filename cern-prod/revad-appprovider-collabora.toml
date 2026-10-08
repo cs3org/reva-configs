@@ -7,6 +7,8 @@ gatewaysvc = "localhost:9142"
 jwt_secret = "your_value_here"
 skip_user_groups_in_token = true
 
+
+
 [grpc]
 address = "0.0.0.0:18500"
 
@@ -14,16 +16,15 @@ address = "0.0.0.0:18500"
 driver = "wopi"
 app_provider_url = "localhost:18500"
 # includes ODF, ODF templates, MS legacy formats + RTF, as well as O365 formats (not by default) if enabled
-mime_types = ["application/vnd.oasis.opendocument.text", "application/vnd.oasis.opendocument.spreadsheet", "application/vnd.oasis.opendocument.presentation", "application/vnd.oasis.opendocument.text-template", "application/vnd.oasis.opendocument.spreadsheet-template", "application/vnd.oasis.opendocument.presentation-template", "application/msword", "application/vnd.ms-excel", "application/vnd.ms-powerpoint", "application/vnd.visio", "image/vnd.dxf", "text/rtf", "text/csv", "image/svg+xml", ]
+mime_types = ["application/vnd.oasis.opendocument.text", "application/vnd.oasis.opendocument.spreadsheet", "application/vnd.oasis.opendocument.presentation", "application/vnd.oasis.opendocument.text-template", "application/vnd.oasis.opendocument.spreadsheet-template", "application/vnd.oasis.opendocument.presentation-template", "application/msword", "application/vnd.ms-excel", "application/vnd.ms-powerpoint", "application/vnd.visio", "application/pdf", "image/vnd.dxf", "text/rtf", "text/csv", "image/svg+xml", "application/vnd.openxmlformats-officedocument.wordprocessingml.document", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "application/vnd.openxmlformats-officedocument.presentationml.presentation", "application/vnd.openxmlformats-officedocument.wordprocessingml.template", "application/vnd.openxmlformats-officedocument.spreadsheetml.template", "application/vnd.openxmlformats-officedocument.presentationml.template", "application/vnd.openxmlformats-officedocument.presentationml.slideshow", "application/msword", "application/vnd.ms-excel", "application/vnd.ms-powerpoint", "application/vnd.visio", "application/vnd.openxmlformats-officedocument.visio", "application/onenote", "application/wopi-validator", "application/wopi-validator-x", "text/csv", ]
 
 [grpc.services.appprovider.drivers.wopi]
 iop_secret = "your_value_here"
-wopi_url = "https://wopitest.cernbox.cern.ch:8443"
+wopi_url = "https://host.example.org:8443"
 app_name = "Collabora"
-app_url = "https://wopidev.cernbox.cern.ch:9980"
-folder_base_url = "https://test.cernbox.cern.ch"
-app_icon_uri = "https://test.cernbox.cern.ch/cernbox/theme-cernbox-1.0.4/assets/collabora-line.svg"
+app_url = "https://host.example.org:9980"
+folder_base_url = "https://host.example.org"
+app_icon_uri = "https://host.example.org/cernbox/theme-cernbox-1.0.6/assets/collabora-line.svg"
 insecure_connections = true
 
-[tracing]
 

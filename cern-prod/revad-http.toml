@@ -8,18 +8,25 @@ level = "info"
 gatewaysvc = "localhost:9142"
 jwt_secret = "your_value_here"
 skip_user_groups_in_token = true
+db_username = "your_value_here"
+db_password = "your_value_here"
+db_host = "your_value_here"
+db_port = 5504
+db_name = "test"
+
+
 
 [http]
 address = "0.0.0.0:9143"
 
 [http.middlewares.auth]
-credential_chain = ["publicshares", "ocmshares", "basic", "bearer"]
+credential_chain = ["publicshares", "appauth", "ocmshares", "basic", "bearer"]
 token_strategy_chain = ["header", "bearer"]
 signed_url_chain = ["signed_url"]
 machine_secret = "your_value_here"
 
 [http.middlewares.auth.credentials_by_user_agent]
-"mirall" = "basic"
+"mirall" = "appauth"
 
 [http.middlewares.auth.credential_strategies.publicshares]
 use_cookies = true
@@ -45,10 +52,11 @@ exposed_headers = ["Location", "Content-Range", "Content-Length", "Accept-Ranges
 transfer_shared_secret = "your_value_here"
 timeout = 86400
 insecure = true
+feedback_recipient = "user@example.org"
 
 
 [http.services.otg]
-db_username = "cernbox_server"
+db_username = "your_value_here"
 db_password = "your_value_here"
 db_host = "your_value_here"
 db_port = 5504
@@ -56,7 +64,7 @@ db_name = "test"
 
 [http.services.ocgraph]
 ocm_enabled = true
-base_url = "https://test.cernbox.cern.ch"
+base_url = "https://host.example.org"
 pub_rw_link_max_expiration = 94694400 # 3 years + 1 day
 pub_rw_link_default_expiration = 2678400 # 1 month + 1 day
 
@@ -78,7 +86,7 @@ prefix = "archiver"
 timeout = 86400
 insecure = true
 max_num_files = 10000
-max_size = 10737418240 # 10GB
+max_size = 12884901884 # 12 GB
 allowed_folders = ["^/eos/user/[a-z]/[0-9a-z\\-]+/", "^/eos/project/[a-z]/[0-9a-z\\-]+/"]
 
 [http.services.datagateway]
@@ -91,39 +99,39 @@ prefix = "data"
 prefix = "preferences"
 
 [http.services.ocdav]
-files_namespace = "/eos/{{substr 0 1 .Username}}"
 timeout = 86400
 insecure = true
 favorite_storage_driver = "sql"
-public_url = "https://test.cernbox.cern.ch"
-spaces_enabled = true
+public_url = "https://host.example.org"
 enable_http_tpc = false
 desktop_client_namespace = "/cernbox/desktop"
+machine_secret = "your_value_here"
+disabled_open_in_apps = [
+]
 
 [http.services.ocdav.publiclink_download]
 max_num_files = 10000
-max_size = 10737418240
+max_size = 5368709120 # 5 GB
 public_folder = "/public"
 
 [http.services.ocdav.favorite_storage_drivers.sql]
-db_username = "cernbox_server"
-db_password = "your_value_here"
-db_host = "your_value_here"
-db_port = 5504
-db_name = "test"
 
 [http.services.wellknown.ocmprovider]
-endpoint = "https://test.cernbox.cern.ch"
+endpoint = "https://host.example.org"
 provider = "CERNBox"
+enable_code_flow = true
 enable_webapp = true
-enable_datatx = false
+enable_embedded = true
 
 [http.services.ocm]
 expose_recipient_display_name = true
+auto_accept_providers = [".*"]
+machine_secret = "your_value_here"
+
 
 [http.services.sciencemesh]
 mesh_directory_url = 'https://sciencemesh.cesnet.cz/iop/meshdir'
-provider_domain = 'test.cernbox.cern.ch'
+provider_domain = "host.example.org"
 body_template_path = '/etc/revad/sciencemesh_email_body'
 ocm_mount_point = '/sciencemesh'
 # the following is the current location of the EOSC Federation
@@ -131,8 +139,8 @@ directory_service_urls = 'https://surfdrive.surf.nl/s/d0bE1k3P1WHReTq/download'
 
 [http.services.sciencemesh.smtp_credentials]
 disable_auth = true
-sender_mail = "sciencemesh@cern.ch"
-smtp_server = "cernmx.cern.ch"
+sender_mail = "user@example.org"
+smtp_server = "host.example.org"
 smtp_port = 25
 
 [http.services.ocs]
@@ -145,30 +153,26 @@ resource_info_cache_type = "memory"
 ocm_mount_point = "/sciencemesh"
 list_ocm_shares = true
 signing_key_secret = "your_value_here"
+machine_secret = "your_value_here"
 
 [http.services.ocs.group_based_capabilities]
 cephfs-mount = ["cernbox-winspaces-view"]
 office-view = ["cernbox-office-view"]
 
 [http.services.ocs.cache_warmup_drivers.cbox]
-db_username = "cernbox_server"
-db_password = "your_value_here"
-db_host = "your_value_here"
-db_port = 5504
-db_name = "test"
 
 [http.services.ocs.config]
 version = "1.8"
 website = "reva"
-host = "https://test.cernbox.cern.ch"
-contact = "cernbox-service-ops@cern.ch"
+host = "https://host.example.org"
+contact = "user@example.org"
 ssl = "false"
 
 [http.services.ocs.capabilities.capabilities.core]
 poll_interval = 60
 webdav_root = "remote.php/webdav"
 status = { installed = true, maintenance = false, nwwsaDbUpgrade = false, version = "10.0.11.5", versionstring = "10.0.11", edition = "community", productname = "reva", hostname = "" }
-support_url_signing = false
+support_url_signing = true
 
 [http.services.ocs.capabilities.capabilities.checksums]
 supported_types = ["sha1", "md5", "adler32"]
@@ -183,7 +187,7 @@ archivers = [
 	{ enabled = true, version = "2.0.0", formats = [
 		"tar",
 		"zip",
-	], archiver_url = "/archiver", max_num_files = "10000", max_size = "1073741824" },
+	], archiver_url = "/archiver", max_num_files = "10000", max_size = "5368709120" },
 ]
 app_providers = [
 	{ enabled = true, version = "1.0.0", apps_url = "/app/list", open_url = "/app/open", new_url = "/app/new" },
@@ -221,7 +225,7 @@ social_share = true
 upload = true
 multiple = true
 supports_upload_only = true
-password = "your_value_here"
+password = { enforced = false, enforced_for = { read_only = false, read_write = false, upload_only = false } }
 can_edit = true
 can_contribute = false
 
@@ -249,38 +253,21 @@ projects = true
 
 [http.services.ocs.capabilities.version]
 edition = "reva"
-major = 10
+major = 16
 minor = 0
-micro = 11
-string = "10.0.11"
+micro = 0
+string = "16.0.0"
 
-[http.services.ocdav.notifications]
-nats_address = "cbox-nats-01.cern.ch:4222"
-nats_token = "your_value_here"
-nats_stream = "reva-notifications-cbox-ocistest-01"
-
-[http.services.ocs.notifications.templates.sharedfolder_upload_mail]
-name = "sharedfolder-upload-mail"
-handler = "email"
-subject_template_path = "/etc/revad/templates/sharedfolder-upload-mail-subject.txt"
-body_template_path = "/etc/revad/templates/sharedfolder-upload-mail-body.html"
-
-[http.services.ocs.notifications]
-nats_address = "cbox-nats-01.cern.ch:4222"
-nats_token = "your_value_here"
-nats_stream = "reva-notifications-cbox-ocistest-01"
-
-[http.services.ocs.notifications.templates.share_create_mail]
-name = "share-create-mail"
-handler = "email"
-subject_template_path = "/etc/revad/templates/share-create-mail-subject.txt"
-body_template_path = "/etc/revad/templates/share-create-mail-body.html"
-
-[http.services.metrics]
-metrics_data_driver_type = "json"
-metrics_data_location = "/etc/revad/accounting-metrics.json"
+[http.services.prometheus]
 
 [http.services.pprof]
 
-[tracing]
+[http.services.loginflow]
+prefix = "index.php/login/v2"
+server_base_url = "https://host.example.org"
+flow_ttl_seconds = 1200
+appauth_driver = "json"
+
+[http.services.loginflow.appauth_drivers.json]
+file = "/var/tmp/reva/appauth.json"
 

@@ -7,6 +7,8 @@ gatewaysvc = "localhost:9142"
 jwt_secret = "your_value_here"
 skip_user_groups_in_token = true
 
+
+
 [grpc]
 address = "0.0.0.0:18501"
 
@@ -18,13 +20,11 @@ app_provider_url = "localhost:18501"
 
 [grpc.services.appprovider.drivers.wopi]
 iop_secret = "your_value_here"
-wopi_url = "https://wopitest.cernbox.cern.ch:8443"
-folder_base_url = "https://test.cernbox.cern.ch"
+wopi_url = "https://host.example.org:8443"
+folder_base_url = "https://host.example.org"
 app_name = "CodiMD"
-app_url = "https://cernbox-codimd-dev.app.cern.ch"
-app_int_url = "https://cernbox-codimd-dev.app.cern.ch"
-app_icon_uri = "https://test.cernbox.cern.ch/cernbox/theme-cernbox-1.0.4/assets/codimd-line.svg"
+app_url = "https://host.example.org"
+app_int_url = "https://host.example.org"
+app_icon_uri = "https://host.example.org/cernbox/theme-cernbox-1.0.6/assets/codimd-line.svg"
 insecure_connections = true
-
-[tracing]
 

@@ -8,6 +8,8 @@ gatewaysvc = "localhost:9142"
 jwt_secret = "your_value_here"
 skip_user_groups_in_token = true
 
+
+
 [grpc]
 address = "0.0.0.0:9145"
 
@@ -15,13 +17,13 @@ address = "0.0.0.0:9145"
 driver = "rest"
 
 [grpc.services.userprovider.drivers.rest]
-client_id = "cernbox-service-grappa"
+client_id = "your_value_here"
 client_secret = "your_value_here"
 redis_address = "localhost:6379"
 user_groups_cache_expiration = 360
-id_provider = "https://auth.cern.ch/auth/realms/cern"
-api_base_url = "https://authorization-service-api.web.cern.ch"
-oidc_token_endpoint = "https://auth.cern.ch/auth/realms/cern/api-access/token"
+id_provider = "https://host.example.org/auth/realms/cern"
+api_base_url = "https://host.example.org"
+oidc_token_endpoint = "https://host.example.org/auth/realms/cern/api-access/token"
 target_api = "authorization-service-api"
 
 
@@ -29,15 +31,14 @@ target_api = "authorization-service-api"
 driver = "rest"
 
 [grpc.services.groupprovider.drivers.rest]
-client_id = "cernbox-service-grappa"
+client_id = "your_value_here"
 client_secret = "your_value_here"
 redis_address = "localhost:6379"
 group_members_cache_expiration = 360
-id_provider = "https://auth.cern.ch/auth/realms/cern"
-api_base_url = "https://authorization-service-api.web.cern.ch"
-oidc_token_endpoint = "https://auth.cern.ch/auth/realms/cern/api-access/token"
+id_provider = "https://host.example.org/auth/realms/cern"
+api_base_url = "https://host.example.org"
+oidc_token_endpoint = "https://host.example.org/auth/realms/cern/api-access/token"
 target_api = "authorization-service-api"
 
 
-[tracing]
 

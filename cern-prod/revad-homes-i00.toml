@@ -8,6 +8,8 @@ gatewaysvc = "localhost:9142"
 jwt_secret = "your_value_here"
 skip_user_groups_in_token = true
 
+
+
 [grpc]
 address = "0.0.0.0:16000"
 
@@ -19,17 +21,18 @@ mount_id = "eoshome-i00"
 data_server_url = "http://localhost:15000/data"
 minimum_allowed_path_level_for_share = 5
 provides_space_type = "personal"
+space_depth = 4
 
 [grpc.services.storageprovider.drivers.eoswrapper]
 namespace = "/eos/user/"
 quota_node = "/eos/user/"
-master_url = "root://eoshomedev.cern.ch"
-master_grpc_uri = "eoshomedev.cern.ch:50051"
+master_url = "root://host.example.org"
+master_grpc_uri = "host.example.org:50051"
 user_layout = "{{substr 0 1 .Username}}/{{.Username}}"
 share_folder = "/Shares"
 xrdcopy_binary = "/opt/eos/xrootd/bin/xrdcopy"
 cache_directory = "/var/tmp/reva"
-http_client_certfile = "/etc/grid-security/cernbox-hostcert.pem"
+http_client_certfile = "your_value_here"
 http_client_keyfile = "your_value_here"
 write_uses_local_temp = false
 default_quota_files = 5000000
@@ -38,7 +41,10 @@ create_home_hook = "/opt/cbox-scripts/lifecycle/create/lifecycle_create_user.sh"
 grpc_auth_key = "your_value_here"
 https_auth_key = "your_value_here"
 use_grpc = true
-allow_insecure = true
+enable_quota_cache = true
+external_accounts_user_name = "cboxexternal"
+external_accounts_user_uid = "193339"
+external_accounts_user_gid = "2766"
 
 [http]
 address = "0.0.0.0:15000"
@@ -49,18 +55,18 @@ driver = "eoswrapper"
 [http.services.dataprovider.drivers.eoswrapper]
 namespace = "/eos/user/"
 quota_node = "/eos/user/"
-master_grpc_uri = "eoshomedev.cern.ch:50051"
+master_grpc_uri = "host.example.org:50051"
 user_layout = "{{substr 0 1 .Username}}/{{.Username}}"
 xrdcopy_binary = "/opt/eos/xrootd/bin/xrdcopy"
 cache_directory = "/var/tmp/reva"
-http_client_certfile = "/etc/grid-security/cernbox-hostcert.pem"
+http_client_certfile = "your_value_here"
 http_client_keyfile = "your_value_here"
 write_uses_local_temp = false
 grpc_auth_key = "your_value_here"
 https_auth_key = "your_value_here"
 use_grpc = true
-allow_insecure = true
-master_url = "https://eoshomedev.cern.ch:8444"
-
-[tracing]
+master_url = "https://host.example.org:8444"
+external_accounts_user_name = "cboxexternal"
+external_accounts_user_uid = "193339"
+external_accounts_user_gid = "2766"
 

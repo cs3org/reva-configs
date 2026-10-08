@@ -5,6 +5,8 @@ output = "/var/log/revad/revad-auth-publiclink.log"
 [grpc]
 address = "localhost:9278"
 
+
+
 [shared]
 gatewaysvc = "localhost:9142"
 jwt_secret = "your_value_here"
@@ -16,4 +18,3 @@ gateway_addr = "localhost:9142"
 [grpc.services.authprovider]
 auth_manager = "publicshares"
 
-[tracing]

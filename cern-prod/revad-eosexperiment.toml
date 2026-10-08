@@ -5,7 +5,7 @@ mode = "json"
 [shared]
 gatewaysvc = "localhost:9142"
 jwt_secret = "your_value_here"
-skip_user_groups_in_token = true
+skip_user_groups_in_token = "your_value_here"
 
 [grpc]
 address = "0.0.0.0:22000"
@@ -17,15 +17,15 @@ address = "0.0.0.0:22000"
 [grpc.services.storageprovider]
 custom_mime_types_json = "/etc/revad/custom-mimetypes.json"
 driver = "eoswrapper"
-mount_path = "/eos/experiment"
+mount_path = "/storage/experiment"
 mount_id = "eosexperiment"
 data_server_url = "http://localhost:22001/data"
 
 [grpc.services.storageprovider.drivers.eoswrapper]
-namespace = "/eos/experiment/"
-quota_node = "/eos/experiment/"
-master_url = "root://eospublic.cern.ch"
-xrdcopy_binary = "/opt/eos/xrootd/bin/xrdcopy"
+namespace = "/storage/experiment/"
+quota_node = "/storage/experiment/"
+master_url = "root://host.example.org"
+xrdcopy_binary = "/opt/storage/xrootd/bin/xrdcopy"
 cache_directory = "/var/tmp/reva"
 mount_id_template = "eosexperiment"
 use_grpc = false
@@ -37,13 +37,13 @@ address = "0.0.0.0:22001"
 driver = "eoswrapper"
 
 [http.services.dataprovider.drivers.eoswrapper]
-namespace = "/eos/experiment/"
-quota_node = "/eos/experiment/"
-xrdcopy_binary = "/opt/eos/xrootd/bin/xrdcopy"
+namespace = "/storage/experiment/"
+quota_node = "/storage/experiment/"
+xrdcopy_binary = "/opt/storage/xrootd/bin/xrdcopy"
 cache_directory = "/var/tmp/reva"
 mount_id_template = "eosexperiment"
 use_grpc = false
-master_url = "root://eospublic.cern.ch"
+master_url = "root://host.example.org"
 
 [tracing]
 

@@ -6,6 +6,8 @@ output = "/var/log/revad/revad-auth-machine.log"
 gatewaysvc = "localhost:9142"
 jwt_secret = "your_value_here"
 
+
+
 [grpc]
 address = "localhost:9166"
 
@@ -15,4 +17,3 @@ auth_manager = "machine"
 [grpc.services.authprovider.auth_managers.machine]
 api_key = "your_value_here"
 
-[tracing]

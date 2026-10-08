@@ -14,6 +14,16 @@ wopi_endpoint = "http://your.wopi.org:8880"
 ocmshares_json_file = "/var/tmp/reva/shares_cernbox2.json"
 machine_api_key = "machine-api-key"
 wopi_shared_secret = "shared-secret-2"
+# Shared service discovery (new revad line). "memory" fits this single
+# all-in-one revad process; switch to "nats" when the node is split into
+# several revad processes that must resolve each other.
+registry_driver = "memory"
+registry_nats_address = "nats://cernbox2-revad-registry:4222"
+registry_nats_bucket = "reva_registry"
+registry_nats_ttl = "30s"
+# Private network the pair federates over; keep in step with the
+# allowed_federation_cidrs lists below.
+allowed_federation_cidr = "10.197.228.0/24"
 
 [http]
 certfile = "/etc/tls/your.revad.ssl.crt"
@@ -25,6 +35,21 @@ level = "debug"
 [shared]
 gatewaysvc = "{{ vars.internal_gateway }}:19000"
 jwt_secret = "reva-secret"
+
+# Service registry the new revad builds resolve peers through.
+# Thresholds and bucket mirror the test-suite compose constants.
+[shared.registry]
+driver = "{{ vars.registry_driver }}"
+heartbeat_interval = "5s"
+degraded_after = "15s"
+offline_after = "30s"
+reap_after = "5m"
+
+# Only read when the driver is "nats". token is optional and omitted.
+[shared.registry.drivers.nats]
+address = "{{ vars.registry_nats_address }}"
+bucket = "{{ vars.registry_nats_bucket }}"
+ttl = "{{ vars.registry_nats_ttl }}"
 
 [grpc.services.gateway]
 address = ":19000"
@@ -189,6 +214,15 @@ expose_data_server = true
 # this must be accessible from the GUI, therefore the hostname will be replaced
 data_server_url = "https://cernbox2.example.org:{{ http.services.dataprovider[2].address.port }}/data"
 
+# Network controls the received driver's public-only OCM client reads.
+[grpc.services.storageprovider.drivers.ocmreceived]
+provider_domain = "{{ vars.provider_domain }}"
+ocm_timeout = 10
+ocm_insecure = true
+ocm_use_env_proxy = true
+allow_loopback_federation = false
+allowed_federation_cidrs = ["{{ vars.allowed_federation_cidr }}"]
+
 
 ### OTHER PROVIDERS ###
 
@@ -224,6 +258,13 @@ file = "{{ vars.ocmshares_json_file }}"
 [grpc.services.ocmproviderauthorizer]
 driver = "open"    # pure OCM, all remote shares are accepted
 #driver = "json"   # to enable sciencemesh
+
+# Network controls the open driver's public-only discovery client reads:
+# TLS skip, env-proxy opt-in, and explicit private CIDR exceptions.
+[grpc.services.ocmproviderauthorizer.drivers.open]
+insecure = true
+ocm_client_use_env_proxy = true
+allowed_federation_cidrs = ["{{ vars.allowed_federation_cidr }}"]
 
 [grpc.services.ocmproviderauthorizer.drivers.json]
 # this is used by the docker-based test deployment, not in production
@@ -299,11 +340,25 @@ machine_secret = "{{ vars.machine_api_key }}"
 [[http.services.dataprovider]]
 driver = "ocmreceived"
 
+# Same driver implementation as the gRPC received storage driver above.
+[http.services.dataprovider.drivers.ocmreceived]
+provider_domain = "{{ vars.provider_domain }}"
+ocm_timeout = 10
+ocm_insecure = true
+ocm_use_env_proxy = true
+allow_loopback_federation = false
+allowed_federation_cidrs = ["{{ vars.allowed_federation_cidr }}"]
+
 [http.services.sciencemesh]
 address = ":443"
 provider_domain = "{{ vars.provider_domain }}"
 mesh_directory_url = "https://meshdir.docker/meshdir"
 ocm_mount_point = "/sciencemesh"
+# Public-only WAYF/discovery client controls; loopback stays off here.
+ocm_client_timeout = 10
+ocm_client_insecure = true
+ocm_client_use_env_proxy = true
+allowed_federation_cidrs = ["{{ vars.allowed_federation_cidr }}"]
 
 [http.services.sciencemesh.smtp_credentials]
 disable_auth = true
@@ -326,6 +381,12 @@ enable_code_flow = true
 address = ":443"
 prefix = "ocm"
 token_manager = "jwt"
+# Inbound share discovery client controls (public-only transport).
+ocm_client_timeout = 10
+ocm_client_insecure = true
+ocm_client_use_env_proxy = true
+allow_loopback_federation = false
+allowed_federation_cidrs = ["{{ vars.allowed_federation_cidr }}"]
 
 [http.services.ocm.config]
 host = "{{ vars.provider_domain }}"

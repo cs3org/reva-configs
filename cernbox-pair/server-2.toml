@@ -321,8 +321,11 @@ address = ":443"
 [http.services.datagateway]
 address = ":443"
 
+# The mount_id lets storageproviders resolve this data server through the
+# service registry. Required since reva v3.13 replaced data_server_url.
 [[http.services.dataprovider]]
 driver = "localhome"
+mount_id = "localhome"
 
 [http.services.dataprovider.drivers.localhome]
 user_layout = "{{.Username}}"
@@ -332,12 +335,14 @@ root = "/revalocalstorage"
 [[http.services.dataprovider]]
 address = ":443"
 driver = "ocmoutcoming"
+mount_id = "ocm"
 
 [http.services.dataprovider.drivers.ocmoutcoming]
 machine_secret = "{{ vars.machine_api_key }}"
 
 [[http.services.dataprovider]]
 driver = "ocmreceived"
+mount_id = "ocm-received"
 
 # Same driver implementation as the gRPC received storage driver above.
 [http.services.dataprovider.drivers.ocmreceived]

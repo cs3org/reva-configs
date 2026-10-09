@@ -193,20 +193,25 @@ users = "users.demo.json"
 ################################################################
 ##########              DATA PROVIDERS                ##########
 ################################################################
+# The mount_id lets storageproviders resolve this data server through the
+# service registry. Required since reva v3.13 replaced data_server_url.
 [[http.services.dataprovider]]
 driver = "localhome"
+mount_id = "123e4567-e89b-12d3-a456-426655440000"
 
 [http.services.dataprovider.drivers.localhome]
 user_layout = "{{.Username}}"
 
 [[http.services.dataprovider]]
 driver = "ocmoutcoming"
+mount_id = "ocm"
 
 [http.services.dataprovider.drivers.ocmoutcoming]
 machine_secret = "{{ vars.machine_api_key }}"
 
 [[http.services.dataprovider]]
 driver = "ocmreceived"
+mount_id = "ocm-received"
 
 # Same driver implementation as the gRPC received storage driver above.
 [http.services.dataprovider.drivers.ocmreceived]

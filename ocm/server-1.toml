@@ -1,9 +1,33 @@
 [shared]
 gatewaysvc = "{{ grpc.services.gateway.address }}"
 
+# Service registry revad uses to resolve peers.
+[shared.registry]
+driver = "{{ vars.registry_driver }}"
+heartbeat_interval = "5s"
+degraded_after = "15s"
+offline_after = "30s"
+reap_after = "5m"
+
+# Only read when the driver is "nats". token is optional and omitted.
+[shared.registry.drivers.nats]
+address = "{{ vars.registry_nats_address }}"
+bucket = "{{ vars.registry_nats_bucket }}"
+ttl = "{{ vars.registry_nats_ttl }}"
+
 [vars]
 machine_api_key = "machine-api-key"
 provider_domain = "cernbox.cern.ch"
+# Shared service discovery. Use "memory" for a single all-in-one revad
+# process; switch to "nats" when split into several revad processes that
+# must resolve each other.
+registry_driver = "memory"
+registry_nats_address = "nats://localhost:4222"
+registry_nats_bucket = "reva_registry"
+registry_nats_ttl = "30s"
+# Private network this node federates over; keep in step with the
+# allowed_federation_cidrs lists below.
+allowed_federation_cidr = "10.0.0.0/8"
 
 [grpc.services.gateway]
 address = "0.0.0.0:19000"
@@ -127,6 +151,15 @@ mount_id = "ocm-received"
 expose_data_server = true
 data_server_url = "http://localhost:{{ http.services.dataprovider[2].address.port }}/data"
 
+# Network controls the received driver's public-only OCM client reads.
+[grpc.services.storageprovider.drivers.ocmreceived]
+provider_domain = "{{ vars.provider_domain }}"
+ocm_timeout = 10
+ocm_insecure = true
+ocm_use_env_proxy = true
+allow_loopback_federation = false
+allowed_federation_cidrs = ["{{ vars.allowed_federation_cidr }}"]
+
 ################################################################
 ##########              AUTH PROVIDERS                ##########
 ################################################################
@@ -175,9 +208,24 @@ machine_secret = "{{ vars.machine_api_key }}"
 [[http.services.dataprovider]]
 driver = "ocmreceived"
 
+# Same driver implementation as the gRPC received storage driver above.
+[http.services.dataprovider.drivers.ocmreceived]
+provider_domain = "{{ vars.provider_domain }}"
+ocm_timeout = 10
+ocm_insecure = true
+ocm_use_env_proxy = true
+allow_loopback_federation = false
+allowed_federation_cidrs = ["{{ vars.allowed_federation_cidr }}"]
+
 [http.services.ocm]
 address = "0.0.0.0:8080"
 expose_recipient_display_name = true
+# Inbound share discovery client controls (public-only transport).
+ocm_client_timeout = 10
+ocm_client_insecure = true
+ocm_client_use_env_proxy = true
+allow_loopback_federation = false
+allowed_federation_cidrs = ["{{ vars.allowed_federation_cidr }}"]
 
 [http.services.wellknown]
 address = "0.0.0.0:8080"

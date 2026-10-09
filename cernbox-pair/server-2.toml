@@ -14,9 +14,9 @@ wopi_endpoint = "http://your.wopi.org:8880"
 ocmshares_json_file = "/var/tmp/reva/shares_cernbox2.json"
 machine_api_key = "machine-api-key"
 wopi_shared_secret = "shared-secret-2"
-# Shared service discovery (new revad line). "memory" fits this single
-# all-in-one revad process; switch to "nats" when the node is split into
-# several revad processes that must resolve each other.
+# Shared service discovery. Use "memory" for a single all-in-one revad
+# process; switch to "nats" when split into several revad processes that
+# must resolve each other.
 registry_driver = "memory"
 registry_nats_address = "nats://cernbox2-revad-registry:4222"
 registry_nats_bucket = "reva_registry"
@@ -36,8 +36,7 @@ level = "debug"
 gatewaysvc = "{{ vars.internal_gateway }}:19000"
 jwt_secret = "reva-secret"
 
-# Service registry the new revad builds resolve peers through.
-# Thresholds and bucket mirror the test-suite compose constants.
+# Service registry revad uses to resolve peers.
 [shared.registry]
 driver = "{{ vars.registry_driver }}"
 heartbeat_interval = "5s"
